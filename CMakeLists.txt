@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.12)
 
 project(OctaSplit VERSION 0.0.1)
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug)
+endif()
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Assets/Svg/drag_and_drop_wav.svg ${CMAKE_CURRENT_BINARY_DIR}/Assets/Svg/drag_and_drop_wav.svg COPYONLY)
+
 include(FetchContent)
 
 FetchContent_Declare(
