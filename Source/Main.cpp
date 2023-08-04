@@ -105,11 +105,11 @@ public:
 
             try {
                 AudioFileProperties afp(fileLabel.getText().toStdString());
-
                 afp.splitByBars(bpm, bars);
             } catch (const std::runtime_error& e) {
                 DBG("Error opening file: " << e.what());
-                juce::JUCEApplication::getInstance()->systemRequestedQuit();
+                juce::NativeMessageBox::showMessageBoxAsync(juce::AlertWindow::WarningIcon, "Error", "Error opening file: " + juce::String(e.what()));
+               // juce::JUCEApplication::getInstance()->systemRequestedQuit();
             }
         };
     }
