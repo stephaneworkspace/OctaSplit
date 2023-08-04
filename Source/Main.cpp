@@ -13,6 +13,7 @@ public:
               barEditor()
     {
         setSize(800, 600);
+        setWantsKeyboardFocus(true); // Ceci permet à MainComponent d'obtenir le focus clavier
 
         juce::File svgFile {juce::File::getSpecialLocation(juce::File::SpecialLocationType::currentExecutableFile).getSiblingFile("./Assets/drag_and_drop_wav.svg")};
         auto svgFileContent = svgFile.loadFileAsString();
@@ -87,6 +88,10 @@ public:
         closeButton.onClick = [this] { juce::JUCEApplication::getInstance()->systemRequestedQuit(); };
     }
 
+    ~MainComponent() override
+    {
+    }
+
     void paint(juce::Graphics& g) override
     {
         g.fillAll(getLookAndFeel().findColour(
@@ -123,11 +128,11 @@ public:
         for(auto &file : files) {
             if (file.endsWith(".wav")) {
                 try {
-                    AudioFileProperties afp(file);
+                    AudioFileProperties afp(file.toStdString());
 
                     fileLabel.setText(file, juce::dontSendNotification);
                     channelsLabel.setText("Channels: " + juce::String(afp.getChannels()) , juce::dontSendNotification);
-                    sampleRateLabel.setText("Sample rate: " + juce::String(afp.getSampleRate()), juce::dontSendNotification);
+                    sampleRateLabel.setText("Sample rate: " + juce::String(afp.getSampleRate()) + " @ " + juce::String(afp.getPcmBitDepth()) + "bits PCM", juce::dontSendNotification);
                     durationLabel.setText("Duration: " + juce::String(afp.getDuration(), 2) + " seconds", juce::dontSendNotification);
                     break;
                 } catch (const std::runtime_error& e) {
@@ -136,6 +141,17 @@ public:
                 }
             }
         }
+    }
+
+    bool keyPressed (const juce::KeyPress& key) override
+    {
+        if (key == juce::KeyPress::escapeKey)
+        {
+            juce::JUCEApplication::getInstance()->systemRequestedQuit();
+            return true;  // indique que vous avez géré l'événement de touche
+        }
+
+        return false;  // laisse les autres événements de touche être gérés ailleurs
     }
 private:
     juce::Label fileLabel;
@@ -165,6 +181,7 @@ public:
         setUsingNativeTitleBar(true);
         setContentOwned(new MainComponent(), true);
 
+        setResizable(true, true);
         centreWithSize(getWidth(), getHeight());
         setVisible(true);
     }
@@ -173,6 +190,7 @@ public:
     {
         juce::JUCEApplication::getInstance()->systemRequestedQuit();
     }
+
 };
 
 class MyApp : public juce::JUCEApplication {

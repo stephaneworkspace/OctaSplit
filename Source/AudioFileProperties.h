@@ -3,20 +3,26 @@
 //
 
 #pragma once
-
-#include <sndfile.hh>
-#include <juce_audio_formats/juce_audio_formats.h>
+#include <sndfile.h>
+#include <string>
 
 class AudioFileProperties
 {
 public:
-    AudioFileProperties(const juce::String& filePath);
+    AudioFileProperties(const std::string& filePath);
+    ~AudioFileProperties();
 
     int getChannels() const;
     int getSampleRate() const;
-    sf_count_t getFrames() const;
     double getDuration() const;
+    std::string getFilePath() const;
+    int64_t getFrames() const;
+    // Retourne la profondeur de bit du fichier PCM ou -1 si le fichier n'est pas PCM
+    int getPcmBitDepth() const;
 
+    void splitByBars(float bpm, int bars);
 private:
-    SndfileHandle sh;
+    SNDFILE* file;
+    SF_INFO info;
+    std::string filePath;
 };
