@@ -58,3 +58,5 @@ xcuserdata/
 _deps/
 build.ninja
 .cmake/
+.ninja_deps
+.ninja_log
