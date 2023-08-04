@@ -9,6 +9,7 @@ public:
     MainComponent()
             : fileLabel("", "No file loaded..."),
               closeButton("Close"),
+              splitButton("Split"),
               bpmEditor(),
               barEditor()
     {
@@ -50,6 +51,7 @@ public:
         addAndMakeVisible(barLabel);
         addAndMakeVisible(barEditor);
         addAndMakeVisible(closeButton);
+        addAndMakeVisible(splitButton);
 
         titleLabel.setFont(juce::Font (32.0f));
         titleLabel.setJustificationType (juce::Justification::centred);
@@ -84,8 +86,9 @@ public:
         barEditor.setText("32");
 
         closeButton.setBounds(getWidth() - 100, 10, 80, 30);
-
         closeButton.onClick = [this] { juce::JUCEApplication::getInstance()->systemRequestedQuit(); };
+        splitButton.setBounds(getWidth() - 100, 60, 80, 30);
+        splitButton.onClick = [this] { juce::JUCEApplication::getInstance()->systemRequestedQuit(); };
     }
 
     ~MainComponent() override
@@ -113,6 +116,7 @@ public:
         barLabel.setBounds(500, getHeight() - 60, 100, 40);
         barEditor.setBounds(600, getHeight() - 60, 150, 40);
         closeButton.setBounds(getWidth() - 100, 10, 80, 30);
+        splitButton.setBounds(getWidth() - 100, 60, 80, 30);
     }
 
     bool isInterestedInFileDrag(const juce::StringArray &files) override {
@@ -164,6 +168,7 @@ private:
     juce::Label barLabel;
     juce::TextEditor barEditor;
     juce::TextButton closeButton;
+    juce::TextButton splitButton;
     std::unique_ptr<juce::Drawable> svgDrawable;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
