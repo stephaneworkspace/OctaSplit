@@ -38,6 +38,7 @@ juce_add_gui_app(OctaSplit
     PRODUCT_NAME "OctaSplit"
     COMPANY_NAME "Stéphane Bressani - bressani.dev"
     BUNDLE_ID "bressani.dev.octasplit"
+    ICON_BIG ${CMAKE_SOURCE_DIR}/icon/MyIcon.icns
     # Other options...
 )
 
