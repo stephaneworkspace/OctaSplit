@@ -65,12 +65,12 @@ void AudioFileProperties::splitByBars(float bpm, int bars) {
     int totalBars = getFrames() / framesPerBar;
 
     // Préparer un buffer pour la lecture des frames
-    std::vector<short> buffer(framesPerBar * getChannels());
+    // We use a buffer of floats as it can accommodate all PCM data formats
+    std::vector<float> buffer(framesPerBar * getChannels());
 
     for (int bar = 0; bar < totalBars; ++bar) {
         // Lire les frames de la mesure actuelle
         sf_seek(file, bar * framesPerBar, SEEK_SET);
-        sf_readf_short(file, buffer.data(), framesPerBar);
 
         // Préparer le nom du fichier de sortie
         std::string outFileName = getFilePath() + "_" + std::to_string(bar) + ".wav";
@@ -85,8 +85,25 @@ void AudioFileProperties::splitByBars(float bpm, int bars) {
             continue;
         }
 
-        // Écrire les frames dans le fichier de sortie
-        sf_writef_short(outFile, buffer.data(), framesPerBar);
+        // Check PCM format and read/write data accordingly
+        switch(getPcmBitDepth()) {
+            case 16:
+                sf_readf_short(file, reinterpret_cast<short*>(buffer.data()), framesPerBar);
+                sf_writef_short(outFile, reinterpret_cast<short*>(buffer.data()), framesPerBar);
+                break;
+            case 24:
+                sf_readf_int(file, reinterpret_cast<int*>(buffer.data()), framesPerBar);
+                sf_writef_int(outFile, reinterpret_cast<int*>(buffer.data()), framesPerBar);
+                break;
+            case 32:
+                sf_readf_float(file, buffer.data(), framesPerBar);
+                sf_writef_float(outFile, buffer.data(), framesPerBar);
+                break;
+            default:
+                std::cout << "Unsupported PCM format: " << getPcmBitDepth() << std::endl;
+                sf_close(outFile);
+                return;
+        }
 
         // Fermer le fichier de sortie
         sf_close(outFile);
