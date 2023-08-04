@@ -1,8 +1,8 @@
 #include <sndfile.hh>
-#include <iostream>
 #include <vector>
 #include <juce_audio_basics/juce_audio_basics.h>
 #include <juce_gui_basics/juce_gui_basics.h>
+#include "AudioFileProperties.h"
 
 class MainComponent : public juce::Component, public juce::DragAndDropContainer, public juce::FileDragAndDropTarget {
 public:
@@ -105,7 +105,7 @@ public:
         }
         return false;
     }
-
+/*
     void filesDropped(const juce::StringArray &files, int x, int y) override {
         for(auto &file : files) {
             if (file.endsWith(".wav")) {
@@ -124,6 +124,24 @@ public:
                 sampleRateLabel.setText("Sample rate: " + juce::String(samplerate), juce::dontSendNotification);
                 durationLabel.setText("Duration: " + juce::String(duration, 2) + " seconds", juce::dontSendNotification);
                 break;
+            }
+        }
+    }*/
+    void filesDropped(const juce::StringArray &files, int x, int y) override {
+        for(auto &file : files) {
+            if (file.endsWith(".wav")) {
+                try {
+                    AudioFileProperties afp(file);
+
+                    fileLabel.setText(file, juce::dontSendNotification);
+                    channelsLabel.setText("Channels: " + juce::String(afp.getChannels()) , juce::dontSendNotification);
+                    sampleRateLabel.setText("Sample rate: " + juce::String(afp.getSampleRate()), juce::dontSendNotification);
+                    durationLabel.setText("Duration: " + juce::String(afp.getDuration(), 2) + " seconds", juce::dontSendNotification);
+                    break;
+                } catch (const std::runtime_error& e) {
+                    DBG("Error opening file: " << e.what());
+                    juce::JUCEApplication::getInstance()->systemRequestedQuit();
+                }
             }
         }
     }

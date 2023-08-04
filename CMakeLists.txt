@@ -42,9 +42,8 @@ juce_add_gui_app(OctaSplit
 
 
 target_sources(OctaSplit PRIVATE
-    Source/Main.cpp
-    # Other source files...
-    )
+    Source/Main.cpp Source/AudioFileProperties.cpp Source/AudioFileProperties.h
+)
 
 # Link the libraries to your target
 target_link_libraries(OctaSplit PRIVATE
