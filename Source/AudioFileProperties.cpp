@@ -55,11 +55,11 @@ int AudioFileProperties::getPcmBitDepth() const {
             return -1;
     }
 }
-
+/*
 void AudioFileProperties::splitByBars(float bpm, int bars) {
     // Calculer le nombre de frames par mesure
     double secondsPerBeat = 60.0 / bpm;
-    int framesPerBar = secondsPerBeat * bars * getSampleRate();
+    int framesPerBar = secondsPerBeat * (bars * 4) * getSampleRate();
 
     // Calculer le nombre total de mesures
     int totalBars = getFrames() / framesPerBar;
@@ -107,5 +107,139 @@ void AudioFileProperties::splitByBars(float bpm, int bars) {
 
         // Fermer le fichier de sortie
         sf_close(outFile);
+    }
+}*/
+
+void AudioFileProperties::process16Bit(int framesPerBar, int totalBars) {
+    // Process 16-bit PCM data...
+
+    // Préparer le nom du fichier de sortie
+    std::string outFileName;
+
+    // Ouvrir le fichier de sortie
+    SF_INFO outFileInfo;
+    SNDFILE* outFile;
+
+    std::vector<short> buffer(framesPerBar * getChannels());
+
+    for (int bar = 0; bar < totalBars; ++bar) {
+        // Lire les frames de la mesure actuelle
+        sf_seek(file, bar * framesPerBar, SEEK_SET);
+        sf_readf_short(file, buffer.data(), framesPerBar);
+
+        outFileName = getFilePath() + "_" + std::to_string(bar) + ".wav";
+        outFileInfo = info;
+        outFileInfo.frames = framesPerBar;
+        outFile = sf_open(outFileName.c_str(), SFM_WRITE, &outFileInfo);
+
+        if (!outFile) {
+            std::cout << "Cannot open output file: " << outFileName << std::endl;
+            continue;
+        }
+
+        // Écrire les frames dans le fichier de sortie
+        sf_writef_short(outFile, buffer.data(), framesPerBar);
+
+        // Fermer le fichier de sortie
+        sf_close(outFile);
+    }
+
+}
+
+void AudioFileProperties::process24Bit(int framesPerBar, int totalBars) {
+    // Process 24-bit PCM data...
+
+    // Préparer le nom du fichier de sortie
+    std::string outFileName;
+
+    // Ouvrir le fichier de sortie
+    SF_INFO outFileInfo;
+    SNDFILE* outFile;
+
+    std::vector<int> buffer(framesPerBar * getChannels());
+
+    for (int bar = 0; bar < totalBars; ++bar) {
+        // Lire les frames de la mesure actuelle
+        sf_seek(file, bar * framesPerBar, SEEK_SET);
+        sf_readf_int(file, buffer.data(), framesPerBar);
+
+        outFileName = getFilePath() + "_" + std::to_string(bar) + ".wav";
+        outFileInfo = info;
+        outFileInfo.frames = framesPerBar;
+        outFile = sf_open(outFileName.c_str(), SFM_WRITE, &outFileInfo);
+
+        if (!outFile) {
+            std::cout << "Cannot open output file: " << outFileName << std::endl;
+            continue;
+        }
+
+        // Écrire les frames dans le fichier de sortie
+        sf_writef_int(outFile, buffer.data(), framesPerBar);
+
+        // Fermer le fichier de sortie
+        sf_close(outFile);
+    }
+
+}
+
+void AudioFileProperties::process32Bit(int framesPerBar, int totalBars) {
+    // Process 32-bit PCM data...
+
+    // Préparer le nom du fichier de sortie
+    std::string outFileName;
+
+    // Ouvrir le fichier de sortie
+    SF_INFO outFileInfo;
+    SNDFILE* outFile;
+
+    std::vector<float> buffer(framesPerBar * getChannels());
+
+    for (int bar = 0; bar < totalBars; ++bar) {
+        // Lire les frames de la mesure actuelle
+        sf_seek(file, bar * framesPerBar, SEEK_SET);
+        sf_readf_float(file, buffer.data(), framesPerBar);
+
+        outFileName = getFilePath() + "_" + std::to_string(bar) + ".wav";
+        outFileInfo = info;
+        outFileInfo.frames = framesPerBar;
+        outFile = sf_open(outFileName.c_str(), SFM_WRITE, &outFileInfo);
+
+        if (!outFile) {
+            std::cout << "Cannot open output file: " << outFileName << std::endl;
+            continue;
+        }
+
+        // Écrire les frames dans le fichier de sortie
+        sf_writef_float(outFile, buffer.data(), framesPerBar);
+
+        // Fermer le fichier de sortie
+        sf_close(outFile);
+    }
+
+}
+
+void AudioFileProperties::splitByBars(float bpm, int bars) {
+    // Calculer le nombre de frames par mesure
+    double secondsPerBeat = 60.0 / bpm;
+    double exactFramesPerBar = secondsPerBeat * (bars * 4) * getSampleRate();
+    int framesPerBar = static_cast<int>(exactFramesPerBar);
+
+    // Calculer le nombre total de mesures
+    int totalBars = getFrames() / framesPerBar;
+
+    // Check PCM format and read/write data accordingly
+    switch(getPcmBitDepth()) {
+        case 16:
+            process16Bit(framesPerBar, totalBars);
+            break;
+        case 24:
+            process24Bit(framesPerBar, totalBars);
+            break;
+        case 32:
+            process32Bit(framesPerBar, totalBars);
+            break;
+        default:
+            std::cout << "Unsupported PCM format: " << getPcmBitDepth() << std::endl;
+            return;
     }
 }

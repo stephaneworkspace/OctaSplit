@@ -20,6 +20,9 @@ public:
     // Retourne la profondeur de bit du fichier PCM ou -1 si le fichier n'est pas PCM
     int getPcmBitDepth() const;
 
+    void process16Bit(int framesPerBar, int totalBars);
+    void process24Bit(int framesPerBar, int totalBars);
+    void process32Bit(int framesPerBar, int totalBars);
     void splitByBars(float bpm, int bars);
 private:
     SNDFILE* file;
