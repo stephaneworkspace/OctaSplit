@@ -165,7 +165,7 @@ public:
                 } catch (const std::runtime_error& e) {
                     DBG("Error opening file: " << e.what());
                     juce::NativeMessageBox::showMessageBoxAsync(juce::AlertWindow::WarningIcon, "Error", "Error opening file: " + juce::String(e.what()));
-                    juce::JUCEApplication::getInstance()->systemRequestedQuit();
+                    //juce::JUCEApplication::getInstance()->systemRequestedQuit();
                 }
             }
         }
