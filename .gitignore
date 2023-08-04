@@ -56,3 +56,5 @@ xcuserdata/
 *~
 
 _deps/
+build.ninja
+.cmake/
