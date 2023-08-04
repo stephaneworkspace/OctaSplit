@@ -13,15 +13,27 @@ public:
         juce::File svgFile {"./Assets/Svg/drag_and_drop_wav.svg"};
         auto svgFileContent = svgFile.loadFileAsString();
 
-        juce::XmlDocument xmlDoc(svgFileContent);
-        std::unique_ptr<juce::XmlElement> xml(xmlDoc.getDocumentElement());
+        DBG("Hello")
 
-        if (xml != nullptr) {
-            svgDrawable = juce::Drawable::createFromSVG(*xml);
+        if(!svgFile.exists()) {
+            DBG("File doesn't exist: " << svgFile.getFullPathName());
+        } else {
+            auto svgFileContent = svgFile.loadFileAsString();
 
-            if (svgDrawable != nullptr) {
-                addAndMakeVisible(svgDrawable.get());
-                svgDrawable->setBounds(getLocalBounds().reduced(10));
+            juce::XmlDocument xmlDoc(svgFileContent);
+            std::unique_ptr<juce::XmlElement> xml(xmlDoc.getDocumentElement());
+
+            if (xml != nullptr && xml->hasTagName("svg")) {
+                svgDrawable = juce::Drawable::createFromSVG(*xml);
+
+                if (svgDrawable != nullptr) {
+                    addAndMakeVisible(svgDrawable.get());
+                    svgDrawable->setBounds(getLocalBounds().reduced(10));
+                } else {
+                    DBG("Couldn't create Drawable from SVG.");
+                }
+            } else {
+                DBG("XML is null or not an SVG.");
             }
         }
 
