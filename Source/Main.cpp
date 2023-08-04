@@ -36,14 +36,14 @@ public:
         }
 
         addAndMakeVisible(fileLabel);
-        addAndMakeVisible(helloWorldLabel);
+        addAndMakeVisible(titleLabel);
         addAndMakeVisible(closeButton);
 
-        helloWorldLabel.setFont (juce::Font (32.0f));
-        helloWorldLabel.setJustificationType (juce::Justification::centred);
-        helloWorldLabel.setText ("Octatrack wav Split by bressani.dev", juce::dontSendNotification);
+        titleLabel.setFont (juce::Font (32.0f));
+        titleLabel.setJustificationType (juce::Justification::centred);
+        titleLabel.setText ("Octatrack wav Split by bressani.dev", juce::dontSendNotification);
 
-        helloWorldLabel.setBounds(10, 20, getWidth() - 20, 40);
+        titleLabel.setBounds(10, 20, getWidth() - 20, 40);
         fileLabel.setBounds(10, getHeight() - 30, getWidth() - 20, 20);
         closeButton.setBounds(getWidth() - 100, 10, 80, 30);
 
@@ -62,7 +62,7 @@ public:
             svgDrawable->setBounds(getLocalBounds().reduced(10));
         }
         fileLabel.setBounds(10, getHeight() - 30, getWidth() - 10, 20);
-        helloWorldLabel.setBounds((getWidth() - 200) / 2, 20 /*(getHeight() - 30)*/ / 2, 400, 30);
+        titleLabel.setBounds((getWidth() - 200) / 2, 20 /*(getHeight() - 30)*/ / 2, 400, 30);
         closeButton.setBounds(getWidth() - 100, 10, 80, 30);
     }
 
@@ -87,7 +87,7 @@ public:
     }
 private:
     juce::Label fileLabel;
-    juce::Label helloWorldLabel;
+    juce::Label titleLabel;
     juce::TextButton closeButton;
     std::unique_ptr<juce::Drawable> svgDrawable;
 
