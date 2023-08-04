@@ -1,39 +1,81 @@
 #include <juce_audio_basics/juce_audio_basics.h>
 #include <juce_gui_basics/juce_gui_basics.h>
 
-class MainComponent : public juce::Component {
+class MainComponent : public juce::Component, public juce::DragAndDropContainer, public juce::FileDragAndDropTarget {
 public:
     MainComponent()
+            : fileLabel("", "No file loaded..."),
+              helloWorldLabel("", "Hello, World!"),
+              closeButton("Close")
     {
+        setSize(800, 600);
+
+        juce::File svgFile {"./Assets/Svg/drag_and_drop_wav.svg"};
+        auto svgFileContent = svgFile.loadFileAsString();
+
+        juce::XmlDocument xmlDoc(svgFileContent);
+        std::unique_ptr<juce::XmlElement> xml(xmlDoc.getDocumentElement());
+
+        if (xml != nullptr) {
+            svgDrawable = juce::Drawable::createFromSVG(*xml);
+
+            if (svgDrawable != nullptr) {
+                addAndMakeVisible(svgDrawable.get());
+                svgDrawable->setBounds(getLocalBounds().reduced(10));
+            }
+        }
+
+        addAndMakeVisible(fileLabel);
+        addAndMakeVisible(helloWorldLabel);
+        addAndMakeVisible(closeButton);
+
         helloWorldLabel.setFont (juce::Font (32.0f));
         helloWorldLabel.setJustificationType (juce::Justification::centred);
         helloWorldLabel.setText ("Hello, World!", juce::dontSendNotification);
 
-        closeButton.setButtonText ("Fermer");
+        fileLabel.setBounds(10, getHeight() - 30, getWidth() - 20, 20);
+        closeButton.setBounds(getWidth() - 100, 10, 80, 30);
+
         closeButton.onClick = [this] { juce::JUCEApplication::getInstance()->systemRequestedQuit(); };
-
-        addAndMakeVisible (helloWorldLabel);
-        addAndMakeVisible (closeButton);
-
-        setSize (800, 600);
     }
 
     void paint(juce::Graphics& g) override
     {
         g.fillAll(getLookAndFeel().findColour(
-            juce::ResizableWindow::backgroundColourId));
+                juce::ResizableWindow::backgroundColourId));
     }
 
     void resized() override
     {
-        auto bounds = getLocalBounds();
-        helloWorldLabel.setBounds (bounds.removeFromTop (bounds.getHeight() / 2));
-        closeButton.setBounds (bounds.removeFromTop (bounds.getHeight() / 2));
+        if (svgDrawable != nullptr) {
+            svgDrawable->setBounds(getLocalBounds().reduced(10));
+        }
+        fileLabel.setBounds(10, getHeight() - 30, getWidth() - 20, 20);
+        closeButton.setBounds(getWidth() - 100, 10, 80, 30);
     }
 
+    bool isInterestedInFileDrag(const juce::StringArray &files) override {
+        for(auto &file : files) {
+            if (file.endsWith(".wav")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    void filesDropped(const juce::StringArray &files, int x, int y) override {
+        for(auto &file : files) {
+            if (file.endsWith(".wav")) {
+                fileLabel.setText(file, juce::dontSendNotification);
+                break;
+            }
+        }
+    }
 private:
+    juce::Label fileLabel;
     juce::Label helloWorldLabel;
     juce::TextButton closeButton;
+    std::unique_ptr<juce::Drawable> svgDrawable;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };
