@@ -9,7 +9,8 @@ public:
     MainComponent()
             : fileLabel("", "No file loaded..."),
               closeButton("Close"),
-              bpmEditor()
+              bpmEditor(),
+              barEditor()
     {
         setSize(800, 600);
 
@@ -45,6 +46,8 @@ public:
         addAndMakeVisible(durationLabel);
         addAndMakeVisible(bpmLabel);
         addAndMakeVisible(bpmEditor);
+        addAndMakeVisible(barLabel);
+        addAndMakeVisible(barEditor);
         addAndMakeVisible(closeButton);
 
         titleLabel.setFont(juce::Font (32.0f));
@@ -71,6 +74,14 @@ public:
         bpmEditor.setJustification(juce::Justification::centred);
         bpmEditor.setText("120.0");
 
+        barLabel.setFont (juce::Font (30.0f));
+        barLabel.setText("Bar: ", juce::dontSendNotification);
+        barLabel.setJustificationType (juce::Justification::centred);
+        barEditor.setFont (juce::Font (30.0f));
+        barEditor.setInputRestrictions(0, "0123456789"); // Autoriser uniquement les chiffres et le point.
+        barEditor.setJustification(juce::Justification::centred);
+        barEditor.setText("32");
+
         closeButton.setBounds(getWidth() - 100, 10, 80, 30);
 
         closeButton.onClick = [this] { juce::JUCEApplication::getInstance()->systemRequestedQuit(); };
@@ -94,6 +105,8 @@ public:
         titleLabel.setBounds((getWidth() - 200) / 2, 20 /*(getHeight() - 30)*/ / 2, 400, 30);
         bpmLabel.setBounds(500, getHeight() - 120, 100, 40);
         bpmEditor.setBounds(600, getHeight() - 120, 150, 40);
+        barLabel.setBounds(500, getHeight() - 60, 100, 40);
+        barEditor.setBounds(600, getHeight() - 60, 150, 40);
         closeButton.setBounds(getWidth() - 100, 10, 80, 30);
     }
 
@@ -132,6 +145,8 @@ private:
     juce::Label durationLabel;
     juce::Label bpmLabel;
     juce::TextEditor bpmEditor;
+    juce::Label barLabel;
+    juce::TextEditor barEditor;
     juce::TextButton closeButton;
     std::unique_ptr<juce::Drawable> svgDrawable;
 

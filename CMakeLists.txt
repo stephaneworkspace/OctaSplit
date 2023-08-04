@@ -5,6 +5,7 @@ project(OctaSplit VERSION 0.0.1)
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
 endif()
+add_compile_definitions(JUCE_DISPLAY_SPLASH_SCREEN=0)
 
 file(GLOB_RECURSE ASSETS_FILES RELATIVE ${CMAKE_SOURCE_DIR} "${CMAKE_SOURCE_DIR}/Assets/*")
 foreach(ASSETS_FILE ${ASSETS_FILES})
