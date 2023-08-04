@@ -62,6 +62,7 @@ public:
             svgDrawable->setBounds(getLocalBounds().reduced(10));
         }
         fileLabel.setBounds(10, getHeight() - 30, getWidth() - 20, 20);
+        helloWorldLabel.setBounds((getWidth() - 200) / 2, (getHeight() - 30) / 2, 200, 30);
         closeButton.setBounds(getWidth() - 100, 10, 80, 30);
     }
 
