@@ -1,0 +1,2 @@
+# Hashes of file build rules.
+1fdf7488b7c94330db998faa3dea38c7 OctaSplit_artefacts/JuceLibraryCode/OctaSplit/PkgInfo
