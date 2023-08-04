@@ -19,11 +19,15 @@ Pour plus de détails sur la licence, veuillez consulter le fichier `LICENSE` in
 
 ## Compilation
 
+**MacOs**
+
+J'ai développé sur une machine MacOs 13 Ventura et le programme fonctionne sans problème.
+
 **Ubuntu**
 
 sudo apt-get install libfreetype6-dev libgtk-3-dev libwebkit2gtk-4.0-dev
 
-
+Avec mon desktop Ubuntu 22.04 Gnome j'ai un problème avec le drag and drop qui ne fonctionne pas. Je n'ai pas encore posté de message dans les forums de la communauté JUCE. Il faut adapter le code pour que ça fonctionne.
 
 
 ## Contact

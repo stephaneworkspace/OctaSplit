@@ -4,6 +4,7 @@ if (UNIX AND NOT APPLE)
     set(CMAKE_C_COMPILER "/usr/bin/clang")
     set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
     add_compile_definitions(JUCE_USE_XRANDR=0)
+    add_definitions(-DJUCE_ENABLE_WIN32_FILETYPE_ASSOCIATION=1)
 endif()
 
 project(OctaSplit VERSION 0.0.1)
