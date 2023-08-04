@@ -43,6 +43,7 @@ public:
         helloWorldLabel.setJustificationType (juce::Justification::centred);
         helloWorldLabel.setText ("Octatrack wav Split by bressani.dev", juce::dontSendNotification);
 
+        helloWorldLabel.setBounds(10, 20, getWidth() - 20, 40);
         fileLabel.setBounds(10, getHeight() - 30, getWidth() - 20, 20);
         closeButton.setBounds(getWidth() - 100, 10, 80, 30);
 
