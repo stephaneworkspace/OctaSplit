@@ -27,7 +27,7 @@ public:
 
                 if (svgDrawable != nullptr) {
                     addAndMakeVisible(svgDrawable.get());
-                    svgDrawable->setBounds(getLocalBounds().reduced(10));
+                    svgDrawable->setTransformToFit(getLocalBounds().toFloat().withSizeKeepingCentre(400, 400), juce::RectanglePlacement::centred);
                 } else {
                     DBG("Couldn't create Drawable from SVG.");
                 }
