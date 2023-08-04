@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.12)
 
+if (UNIX AND NOT APPLE)
+    set(CMAKE_C_COMPILER "/usr/bin/clang")
+    set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
+endif()
+
 project(OctaSplit VERSION 0.0.1)
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -47,13 +52,24 @@ target_sources(OctaSplit PRIVATE
     Source/Main.cpp Source/AudioFileProperties.cpp Source/AudioFileProperties.h
 )
 
+if (UNIX AND NOT APPLE)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(GTK REQUIRED gtk+-3.0)
+    pkg_check_modules(WEBKIT2GTK REQUIRED webkit2gtk-4.0)
+    pkg_check_modules(CURL REQUIRED libcurl)
+
+    include_directories(${GTK_INCLUDE_DIRS} ${WEBKIT2GTK_INCLUDE_DIRS} ${CURL_INCLUDE_DIRS})
+    link_directories(${GTK_LIBRARY_DIRS} ${WEBKIT2GTK_LIBRARY_DIRS} ${CURL_LIBRARY_DIRS})
+
+    add_definitions(${GTK_CFLAGS_OTHER} ${WEBKIT2GTK_CFLAGS_OTHER} ${CURL_CFLAGS_OTHER})
+    target_link_libraries(OctaSplit PRIVATE ${GTK_LIBRARIES} ${WEBKIT2GTK_LIBRARIES} ${CURL_LIBRARIES})
+endif ()
+
+
 # Link the libraries to your target
 target_link_libraries(OctaSplit PRIVATE
-        ${portaudio_BINARY_DIR}/libportaudio.a
-        sndfile
-        )
-
-target_link_libraries(OctaSplit PRIVATE
+    ${portaudio_BINARY_DIR}/libportaudio.a
+    sndfile
     juce::juce_audio_utils
     # Other JUCE modules, third-party libraries...
 )

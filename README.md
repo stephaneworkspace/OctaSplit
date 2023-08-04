@@ -17,6 +17,15 @@ OctaSplit est publié sous la licence open source GNU General Public License v3.
 
 Pour plus de détails sur la licence, veuillez consulter le fichier `LICENSE` inclus dans le dépôt.
 
+## Compilation
+
+**Ubuntu**
+
+sudo apt-get install libfreetype6-dev libgtk-3-dev libwebkit2gtk-4.0-dev
+
+
+
+
 ## Contact
 Pour toute question ou suggestion, n'hésitez pas à me contacter sur [bressani.dev](http://bressani.dev).
 
