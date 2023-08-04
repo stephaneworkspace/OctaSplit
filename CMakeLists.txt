@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.12)
 if (UNIX AND NOT APPLE)
     set(CMAKE_C_COMPILER "/usr/bin/clang")
     set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
+    add_compile_definitions(JUCE_USE_XRANDR=0)
 endif()
 
 project(OctaSplit VERSION 0.0.1)
