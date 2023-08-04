@@ -62,3 +62,4 @@ build.ninja
 .ninja_log
 CPackConfig.cmake
 CPackSourceConfig.cmake
+Makefile
