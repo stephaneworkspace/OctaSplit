@@ -105,28 +105,7 @@ public:
         }
         return false;
     }
-/*
-    void filesDropped(const juce::StringArray &files, int x, int y) override {
-        for(auto &file : files) {
-            if (file.endsWith(".wav")) {
-                SndfileHandle sh = SndfileHandle(file.toRawUTF8());
-                if(sh.error()) {
-                    DBG("Error opening file: " << sh.strError());
-                    juce::JUCEApplication::getInstance()->systemRequestedQuit();
-                }
-                int channels = sh.channels();
-                int samplerate = sh.samplerate();
-                sf_count_t frames = sh.frames();
-                double duration = static_cast<double>(frames) / static_cast<double>(samplerate);
 
-                fileLabel.setText(file, juce::dontSendNotification);
-                channelsLabel.setText("Channels: " + juce::String(channels) , juce::dontSendNotification);
-                sampleRateLabel.setText("Sample rate: " + juce::String(samplerate), juce::dontSendNotification);
-                durationLabel.setText("Duration: " + juce::String(duration, 2) + " seconds", juce::dontSendNotification);
-                break;
-            }
-        }
-    }*/
     void filesDropped(const juce::StringArray &files, int x, int y) override {
         for(auto &file : files) {
             if (file.endsWith(".wav")) {
