@@ -55,60 +55,6 @@ int AudioFileProperties::getPcmBitDepth() const {
             return -1;
     }
 }
-/*
-void AudioFileProperties::splitByBars(float bpm, int bars) {
-    // Calculer le nombre de frames par mesure
-    double secondsPerBeat = 60.0 / bpm;
-    int framesPerBar = secondsPerBeat * (bars * 4) * getSampleRate();
-
-    // Calculer le nombre total de mesures
-    int totalBars = getFrames() / framesPerBar;
-
-    // Préparer un buffer pour la lecture des frames
-    // We use a buffer of floats as it can accommodate all PCM data formats
-    std::vector<float> buffer(framesPerBar * getChannels());
-
-    for (int bar = 0; bar < totalBars; ++bar) {
-        // Lire les frames de la mesure actuelle
-        sf_seek(file, bar * framesPerBar, SEEK_SET);
-
-        // Préparer le nom du fichier de sortie
-        std::string outFileName = getFilePath() + "_" + std::to_string(bar) + ".wav";
-
-        // Ouvrir le fichier de sortie
-        SF_INFO outFileInfo = info;
-        outFileInfo.frames = framesPerBar;
-        SNDFILE* outFile = sf_open(outFileName.c_str(), SFM_WRITE, &outFileInfo);
-
-        if (!outFile) {
-            std::cout << "Cannot open output file: " << outFileName << std::endl;
-            continue;
-        }
-
-        // Check PCM format and read/write data accordingly
-        switch(getPcmBitDepth()) {
-            case 16:
-                sf_readf_short(file, reinterpret_cast<short*>(buffer.data()), framesPerBar);
-                sf_writef_short(outFile, reinterpret_cast<short*>(buffer.data()), framesPerBar);
-                break;
-            case 24:
-                sf_readf_int(file, reinterpret_cast<int*>(buffer.data()), framesPerBar);
-                sf_writef_int(outFile, reinterpret_cast<int*>(buffer.data()), framesPerBar);
-                break;
-            case 32:
-                sf_readf_float(file, buffer.data(), framesPerBar);
-                sf_writef_float(outFile, buffer.data(), framesPerBar);
-                break;
-            default:
-                std::cout << "Unsupported PCM format: " << getPcmBitDepth() << std::endl;
-                sf_close(outFile);
-                return;
-        }
-
-        // Fermer le fichier de sortie
-        sf_close(outFile);
-    }
-}*/
 
 void AudioFileProperties::process16Bit(int framesPerBar, int totalBars) {
     // Process 16-bit PCM data...
