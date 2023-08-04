@@ -6,7 +6,10 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
 endif()
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Assets/Svg/drag_and_drop_wav.svg ${CMAKE_CURRENT_BINARY_DIR}/Assets/Svg/drag_and_drop_wav.svg COPYONLY)
+file(GLOB_RECURSE ASSETS_FILES RELATIVE ${CMAKE_SOURCE_DIR} "${CMAKE_SOURCE_DIR}/Assets/*")
+foreach(ASSETS_FILE ${ASSETS_FILES})
+    configure_file(${ASSETS_FILE} ${ASSETS_FILE} COPYONLY)
+endforeach()
 
 include(FetchContent)
 
@@ -54,3 +57,6 @@ target_link_libraries(OctaSplit PRIVATE
     # Other JUCE modules, third-party libraries...
 )
 
+add_custom_command(TARGET OctaSplit POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/Assets/ $<TARGET_FILE_DIR:OctaSplit>/Assets/)

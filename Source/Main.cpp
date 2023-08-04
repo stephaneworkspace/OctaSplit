@@ -10,7 +10,8 @@ public:
     {
         setSize(800, 600);
 
-        juce::File svgFile {"./Assets/Svg/drag_and_drop_wav.svg"};
+        //juce::File svgFile {"./Assets/drag_and_drop_wav.svg"};
+        juce::File svgFile {juce::File::getSpecialLocation(juce::File::SpecialLocationType::currentExecutableFile).getSiblingFile("./Assets/drag_and_drop_wav.svg")};
         auto svgFileContent = svgFile.loadFileAsString();
 
         if (!svgFile.exists()) {
