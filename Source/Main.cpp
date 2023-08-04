@@ -13,7 +13,7 @@ public:
         juce::File svgFile {"./Assets/Svg/drag_and_drop_wav.svg"};
         auto svgFileContent = svgFile.loadFileAsString();
 
-        if(!svgFile.exists()) {
+        if (!svgFile.exists()) {
             DBG("File doesn't exist: " << svgFile.getFullPathName());
         } else {
             auto svgFileContent = svgFile.loadFileAsString();
