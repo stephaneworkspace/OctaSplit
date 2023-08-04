@@ -37,6 +37,8 @@ public:
         addAndMakeVisible(fileLabel);
         addAndMakeVisible(titleLabel);
         addAndMakeVisible(channelsLabel);
+        addAndMakeVisible(sampleRateLabel);
+        addAndMakeVisible(durationLabel);
         addAndMakeVisible(closeButton);
 
         titleLabel.setFont(juce::Font (32.0f));
@@ -44,8 +46,12 @@ public:
         titleLabel.setText("Octatrack wav Split by bressani.dev", juce::dontSendNotification);
         titleLabel.setBounds(10, 20, getWidth() - 20, 40);
 
+        durationLabel.setText("", juce::dontSendNotification);
+        durationLabel.setBounds(10, getHeight() - 60, getWidth() - 20, 20);
+        sampleRateLabel.setText("", juce::dontSendNotification);
+        sampleRateLabel.setBounds(10, getHeight() - 90, getWidth() - 20, 20);
         channelsLabel.setText("", juce::dontSendNotification);
-        channelsLabel.setBounds(10, getHeight() - 60, getWidth() - 20, 20);
+        channelsLabel.setBounds(10, getHeight() - 120, getWidth() - 20, 20);
 
         // fileLabel.setFont(juce::Font("Arial", 12.0f, juce::Font::plain));
         fileLabel.setBounds(10, getHeight() - 30, getWidth() - 20, 20);
@@ -66,7 +72,9 @@ public:
             svgDrawable->setBounds(getLocalBounds().reduced(10));
         }
         fileLabel.setBounds(10, getHeight() - 30, getWidth() - 10, 20);
-        channelsLabel.setBounds(10, getHeight() - 60, getWidth() - 10, 20);
+        channelsLabel.setBounds(10, getHeight() -60, getWidth() - 10, 20);
+        sampleRateLabel.setBounds(10, getHeight() -90, getWidth() - 10, 20);
+        durationLabel.setBounds(10, getHeight() -120, getWidth() - 10, 20);
         titleLabel.setBounds((getWidth() - 200) / 2, 20 /*(getHeight() - 30)*/ / 2, 400, 30);
         closeButton.setBounds(getWidth() - 100, 10, 80, 30);
     }
@@ -85,7 +93,9 @@ public:
             if (file.endsWith(".wav")) {
                 DBG(file);
                 fileLabel.setText(file, juce::dontSendNotification);
-                channelsLabel.setText("Channels : 2", juce::dontSendNotification);
+                channelsLabel.setText("Channels: 2", juce::dontSendNotification);
+                sampleRateLabel.setText("Sample rate: 2", juce::dontSendNotification);
+                durationLabel.setText("Duration: 2 seconds", juce::dontSendNotification);
                 break;
             }
         }
@@ -94,6 +104,8 @@ private:
     juce::Label fileLabel;
     juce::Label titleLabel;
     juce::Label channelsLabel;
+    juce::Label sampleRateLabel;
+    juce::Label durationLabel;
     juce::TextButton closeButton;
     std::unique_ptr<juce::Drawable> svgDrawable;
 
