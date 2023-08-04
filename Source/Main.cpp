@@ -5,7 +5,6 @@ class MainComponent : public juce::Component, public juce::DragAndDropContainer,
 public:
     MainComponent()
             : fileLabel("", "No file loaded..."),
-              helloWorldLabel("", "Hello, World!"),
               closeButton("Close")
     {
         setSize(800, 600);
@@ -42,7 +41,7 @@ public:
 
         helloWorldLabel.setFont (juce::Font (32.0f));
         helloWorldLabel.setJustificationType (juce::Justification::centred);
-        helloWorldLabel.setText ("Hello, World!", juce::dontSendNotification);
+        helloWorldLabel.setText ("Octatrack wav Split by bressani.dev", juce::dontSendNotification);
 
         fileLabel.setBounds(10, getHeight() - 30, getWidth() - 20, 20);
         closeButton.setBounds(getWidth() - 100, 10, 80, 30);
@@ -61,8 +60,8 @@ public:
         if (svgDrawable != nullptr) {
             svgDrawable->setBounds(getLocalBounds().reduced(10));
         }
-        fileLabel.setBounds(10, getHeight() - 30, getWidth() - 20, 20);
-        helloWorldLabel.setBounds((getWidth() - 200) / 2, (getHeight() - 30) / 2, 200, 30);
+        fileLabel.setBounds(10, getHeight() - 30, getWidth() - 10, 20);
+        helloWorldLabel.setBounds((getWidth() - 200) / 2, 20 /*(getHeight() - 30)*/ / 2, 400, 30);
         closeButton.setBounds(getWidth() - 100, 10, 80, 30);
     }
 
@@ -78,6 +77,8 @@ public:
     void filesDropped(const juce::StringArray &files, int x, int y) override {
         for(auto &file : files) {
             if (file.endsWith(".wav")) {
+                DBG(file);
+                fileLabel.setFont(juce::Font("Arial", 12.0f, juce::Font::plain));
                 fileLabel.setText(file, juce::dontSendNotification);
                 break;
             }
