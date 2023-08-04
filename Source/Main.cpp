@@ -8,7 +8,8 @@ class MainComponent : public juce::Component, public juce::DragAndDropContainer,
 public:
     MainComponent()
             : fileLabel("", "No file loaded..."),
-              closeButton("Close")
+              closeButton("Close"),
+              bpmEditor()
     {
         setSize(800, 600);
 
@@ -42,6 +43,8 @@ public:
         addAndMakeVisible(channelsLabel);
         addAndMakeVisible(sampleRateLabel);
         addAndMakeVisible(durationLabel);
+        addAndMakeVisible(bpmLabel);
+        addAndMakeVisible(bpmEditor);
         addAndMakeVisible(closeButton);
 
         titleLabel.setFont(juce::Font (32.0f));
@@ -58,6 +61,16 @@ public:
 
         // fileLabel.setFont(juce::Font("Arial", 12.0f, juce::Font::plain));
         fileLabel.setBounds(10, getHeight() - 30, getWidth() - 20, 20);
+
+
+        bpmLabel.setFont (juce::Font (30.0f));
+        bpmLabel.setText("Bpm: ", juce::dontSendNotification);
+        bpmLabel.setJustificationType (juce::Justification::centred);
+        bpmEditor.setFont (juce::Font (30.0f));
+        bpmEditor.setInputRestrictions(0, "0123456789."); // Autoriser uniquement les chiffres et le point.
+        bpmEditor.setJustification(juce::Justification::centred);
+        bpmEditor.setText("120.0");
+
         closeButton.setBounds(getWidth() - 100, 10, 80, 30);
 
         closeButton.onClick = [this] { juce::JUCEApplication::getInstance()->systemRequestedQuit(); };
@@ -79,6 +92,8 @@ public:
         sampleRateLabel.setBounds(10, getHeight() -90, getWidth() - 10, 20);
         durationLabel.setBounds(10, getHeight() -120, getWidth() - 10, 20);
         titleLabel.setBounds((getWidth() - 200) / 2, 20 /*(getHeight() - 30)*/ / 2, 400, 30);
+        bpmLabel.setBounds(500, getHeight() - 120, 100, 40);
+        bpmEditor.setBounds(600, getHeight() - 120, 150, 40);
         closeButton.setBounds(getWidth() - 100, 10, 80, 30);
     }
 
@@ -118,6 +133,8 @@ private:
     juce::Label channelsLabel;
     juce::Label sampleRateLabel;
     juce::Label durationLabel;
+    juce::Label bpmLabel;
+    juce::TextEditor bpmEditor;
     juce::TextButton closeButton;
     std::unique_ptr<juce::Drawable> svgDrawable;
 
