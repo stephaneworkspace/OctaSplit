@@ -5,15 +5,17 @@ class MainComponent : public juce::Component {
 public:
     MainComponent()
     {
-        setSize(800, 600);
+        helloWorldLabel.setFont (juce::Font (32.0f));
+        helloWorldLabel.setJustificationType (juce::Justification::centred);
+        helloWorldLabel.setText ("Hello, World!", juce::dontSendNotification);
 
-        // À ce stade, vous devrez charger votre fichier audio,
-        // par exemple en utilisant juce::AudioFormatReader et
-        // juce::AudioFormatManager, puis récupérer les informations
-        // que vous voulez afficher.
+        closeButton.setButtonText ("Fermer");
+        closeButton.onClick = [this] { juce::JUCEApplication::getInstance()->systemRequestedQuit(); };
 
-        // Vous pouvez ensuite créer des juce::Label pour afficher
-        // ces informations et les ajouter à votre composant.
+        addAndMakeVisible (helloWorldLabel);
+        addAndMakeVisible (closeButton);
+
+        setSize (800, 600);
     }
 
     void paint(juce::Graphics& g) override
@@ -24,11 +26,15 @@ public:
 
     void resized() override
     {
-        // Positionner vos labels ici.
+        auto bounds = getLocalBounds();
+        helloWorldLabel.setBounds (bounds.removeFromTop (bounds.getHeight() / 2));
+        closeButton.setBounds (bounds.removeFromTop (bounds.getHeight() / 2));
     }
 
 private:
-    // vos labels ici
+    juce::Label helloWorldLabel;
+    juce::TextButton closeButton;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };
 
