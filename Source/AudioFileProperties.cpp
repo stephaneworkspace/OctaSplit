@@ -3,8 +3,6 @@
 //
 
 #include "AudioFileProperties.h"
-#include <iostream>
-#include <stdexcept>
 
 AudioFileProperties::AudioFileProperties(const std::string& filePath) : filePath(filePath) {
     file = sf_open(filePath.c_str(), SFM_READ, &info);
@@ -31,6 +29,11 @@ double AudioFileProperties::getDuration() const {
 
 std::string AudioFileProperties::getFilePath() const {
     return filePath;
+}
+
+std::string AudioFileProperties::getFilePathWithoutExt() const {
+    std::regex regex("\\.wav$", std::regex_constants::icase);
+    return std::regex_replace(filePath, regex, "");
 }
 
 int64_t AudioFileProperties::getFrames() const {
@@ -73,7 +76,7 @@ void AudioFileProperties::process16Bit(int framesPerBar, int totalBars) {
         sf_seek(file, bar * framesPerBar, SEEK_SET);
         sf_readf_short(file, buffer.data(), framesPerBar);
 
-        outFileName = getFilePath() + "_" + std::to_string(bar) + ".wav";
+        outFileName = getFilePathWithoutExt() + "_" + std::to_string(bar) + ".wav";
         outFileInfo = info;
         outFileInfo.frames = framesPerBar;
         outFile = sf_open(outFileName.c_str(), SFM_WRITE, &outFileInfo);
@@ -109,7 +112,7 @@ void AudioFileProperties::process24Bit(int framesPerBar, int totalBars) {
         sf_seek(file, bar * framesPerBar, SEEK_SET);
         sf_readf_int(file, buffer.data(), framesPerBar);
 
-        outFileName = getFilePath() + "_" + std::to_string(bar) + ".wav";
+        outFileName = getFilePathWithoutExt() + "_" + std::to_string(bar) + ".wav";
         outFileInfo = info;
         outFileInfo.frames = framesPerBar;
         outFile = sf_open(outFileName.c_str(), SFM_WRITE, &outFileInfo);
@@ -145,7 +148,7 @@ void AudioFileProperties::process32Bit(int framesPerBar, int totalBars) {
         sf_seek(file, bar * framesPerBar, SEEK_SET);
         sf_readf_float(file, buffer.data(), framesPerBar);
 
-        outFileName = getFilePath() + "_" + std::to_string(bar) + ".wav";
+        outFileName = getFilePathWithoutExt() + "_" + std::to_string(bar) + ".wav";
         outFileInfo = info;
         outFileInfo.frames = framesPerBar;
         outFile = sf_open(outFileName.c_str(), SFM_WRITE, &outFileInfo);

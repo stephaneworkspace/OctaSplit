@@ -5,6 +5,9 @@
 #pragma once
 #include <sndfile.h>
 #include <string>
+#include <iostream>
+#include <stdexcept>
+#include <regex>
 
 class AudioFileProperties
 {
@@ -16,6 +19,7 @@ public:
     int getSampleRate() const;
     double getDuration() const;
     std::string getFilePath() const;
+    std::string getFilePathWithoutExt() const;
     int64_t getFrames() const;
     // Retourne la profondeur de bit du fichier PCM ou -1 si le fichier n'est pas PCM
     int getPcmBitDepth() const;
