@@ -60,3 +60,5 @@ build.ninja
 .cmake/
 .ninja_deps
 .ninja_log
+CPackConfig.cmake
+CPackSourceConfig.cmake
