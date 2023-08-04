@@ -4,7 +4,11 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 #include "AudioFileProperties.h"
 
-class MainComponent : public juce::Component, public juce::DragAndDropContainer, public juce::FileDragAndDropTarget {
+class MainComponent : public juce::Component,
+                      public juce::KeyListener,
+                      public juce::TextEditor::Listener,
+                      public juce::DragAndDropContainer,
+                      public juce::FileDragAndDropTarget {
 public:
     MainComponent()
             : fileLabel("", "No file loaded..."),
@@ -40,6 +44,9 @@ public:
                 DBG("XML is null or not an SVG.");
             }
         }
+
+        bpmEditor.addListener(this);
+        barEditor.addListener(this);
 
         addAndMakeVisible(fileLabel);
         addAndMakeVisible(titleLabel);
@@ -88,7 +95,23 @@ public:
         closeButton.setBounds(getWidth() - 100, 10, 80, 30);
         closeButton.onClick = [this] { juce::JUCEApplication::getInstance()->systemRequestedQuit(); };
         splitButton.setBounds(getWidth() - 100, 60, 80, 30);
-        splitButton.onClick = [this] { juce::JUCEApplication::getInstance()->systemRequestedQuit(); };
+        splitButton.onClick = [this] {
+            if (bpmEditor.getText().isEmpty() || barEditor.getText().isEmpty()) {
+                return;
+            }
+
+            float bpm = bpmEditor.getText().getFloatValue();
+            int bars = barEditor.getText().getIntValue();
+
+            try {
+                AudioFileProperties afp(fileLabel.getText().toStdString());
+
+                afp.splitByBars(bpm, bars);
+            } catch (const std::runtime_error& e) {
+                DBG("Error opening file: " << e.what());
+                juce::JUCEApplication::getInstance()->systemRequestedQuit();
+            }
+        };
     }
 
     ~MainComponent() override
@@ -147,15 +170,17 @@ public:
         }
     }
 
-    bool keyPressed (const juce::KeyPress& key) override
-    {
-        if (key == juce::KeyPress::escapeKey)
-        {
+    bool keyPressed(const juce::KeyPress &key, juce::Component *originatingComponent) override {
+        if (key == juce::KeyPress::escapeKey) {
             juce::JUCEApplication::getInstance()->systemRequestedQuit();
-            return true;  // indique que vous avez géré l'événement de touche
+            return true;  // Indiquer que l'événement de la touche a été traité
         }
+        return false;  // Indiquer que l'événement de la touche n'a pas été traité
+    }
 
-        return false;  // laisse les autres événements de touche être gérés ailleurs
+    void textEditorTextChanged (juce::TextEditor& editor) override
+    {
+        splitButton.setEnabled(!bpmEditor.getText().isEmpty() && !barEditor.getText().isEmpty());
     }
 private:
     juce::Label fileLabel;
