@@ -111,7 +111,9 @@ if (UNIX)
     # Link the libraries to your target
     target_link_libraries(OctaSplit PRIVATE
         #${portaudio_BINARY_DIR}/libportaudio.a
-        portaudio
+        #portaudio
+        #portaudio::portaudio
+        "/usr/local/lib/libportaudio.dylib"
         sndfile
         juce::juce_audio_utils
         # Other JUCE modules, third-party libraries...
