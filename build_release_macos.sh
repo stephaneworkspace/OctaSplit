@@ -41,7 +41,8 @@ if [ -d "bin" ]; then
 fi
 
 # Générer les fichiers de projet avec CMake
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" ..
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES="x86_64" ..
+#cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" ..
 
 # Compiler le projet
 cmake --build . --config Release
