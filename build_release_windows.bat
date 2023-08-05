@@ -21,4 +21,8 @@ REM cmake -DCMAKE_BUILD_TYPE=Release -A x64 ..
 
 REM Compiler le projet
 cmake --build . --target OctaSplit --config Release -- /m
+
+REM Compiler le projet avec MSBuild
+"C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" OctaSplit.sln /p:Configuration=Release /p:Platform=x6
+
 echo Compilation terminé
