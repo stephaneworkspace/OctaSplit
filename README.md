@@ -2,6 +2,8 @@
 
 Bienvenue dans OctaSplit, une application multiplateforme développée en C++.
 
+![OctaSplit on MacOS](./Assets/screen_macos.png)
+
 ## À propos
 OctaSplit est un outil pratique destiné aux producteurs de musique. Il permet de prendre un fichier généré par un logiciel de musique assistée par ordinateur, tel que Cubase, Ableton Live, Fruity Loops, Logic ou Bitwig, et de le découper en petits morceaux prêts à être utilisés dans l'Octatrack d'Elektron.
 
@@ -11,8 +13,6 @@ OctaSplit est un outil pratique destiné aux producteurs de musique. Il permet d
 
 ## Fonctionnement
 Avec OctaSplit, manipuler vos fichiers audio n'a jamais été aussi simple. Ouvrez un fichier WAV, puis cliquez sur le bouton « Split ». Instantanément, le programme divise votre fichier en plusieurs segments, créant des fichiers tels que nomfichier_00.wav, nomfichier_01.wav, etc. Un outil pratique et efficace pour ceux qui veulent des boucles sur un sampler tel que l'octatrack d'Elektron.
-
-![OctaSplit on MacOS](./Assets/screen_macos.png)
 
 ## Licence
 OctaSplit est publié sous la licence open source GNU General Public License v3.0. Vous êtes libre de modifier, distribuer et utiliser le logiciel en accord avec les termes de cette licence.
