@@ -59,7 +59,7 @@ else ()
 endif()
 
 target_sources(OctaSplit PRIVATE
-    Source/Main.cpp Source/AudioFileProperties.cpp Source/AudioFileProperties.h
+    Source/MainComponent.h Source/MainComponent.cpp Source/Main.cpp Source/AudioFileProperties.cpp Source/AudioFileProperties.h
 )
 
 if (UNIX AND NOT APPLE)
