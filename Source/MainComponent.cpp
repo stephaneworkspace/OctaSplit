@@ -155,11 +155,18 @@ MainComponent::MainComponent() : fileLabel("", "No file loaded..."),
             durationLabel.setText ("", dontSendNotification);
             sampleRateLabel.setText ("", dontSendNotification);
             channelsLabel.setText ("", dontSendNotification);
-            fileLabel.setText ("", dontSendNotification);
+            fileLabel.setText ("No file loaded...", dontSendNotification);
         } catch (const std::runtime_error& e) {
-            DBG("Error opening file: " << e.what());
-            juce::NativeMessageBox::showMessageBoxAsync(juce::AlertWindow::WarningIcon, "Error", "Error opening file: " + juce::String(e.what()));
+            //DBG("Error opening file: " << e.what());
+            //juce::NativeMessageBox::showMessageBoxAsync(juce::AlertWindow::WarningIcon, "Error", "Error opening file: " + juce::String(e.what()));
             // juce::JUCEApplication::getInstance()->systemRequestedQuit();
+            AlertWindow::showMessageBoxAsync (AlertWindow::WarningIcon,
+                                              "Error",
+                                              "Can't open file.");
+            fileLabel.setText ("No file loaded...", dontSendNotification);
+            durationLabel.setText ("", dontSendNotification);
+            sampleRateLabel.setText ("", dontSendNotification);
+            channelsLabel.setText ("", dontSendNotification);
         }
     };
     fileSelectButton.setButtonText("Select .wav file");
@@ -244,6 +251,9 @@ void MainComponent::filesDropped(const juce::StringArray &files, int x, int y) {
                                                       "Invalid file",
                                                       "The selected file is not a valid WAV file.");
                     fileLabel.setText ("No file loaded...", dontSendNotification);
+                    durationLabel.setText ("", dontSendNotification);
+                    sampleRateLabel.setText ("", dontSendNotification);
+                    channelsLabel.setText ("", dontSendNotification);
                 }
                 else
                 {
@@ -254,6 +264,9 @@ void MainComponent::filesDropped(const juce::StringArray &files, int x, int y) {
                                                           "Invalid file",
                                                           "The selected file is not a valid WAV file.");
                         fileLabel.setText ("No file loaded...", dontSendNotification);
+                        durationLabel.setText ("", dontSendNotification);
+                        sampleRateLabel.setText ("", dontSendNotification);
+                        channelsLabel.setText ("", dontSendNotification);
                     }
                     // Le fichier est valide, vous pouvez continuer avec votre traitement.
                     // N'oubliez pas de fermer le fichier lorsque vous avez terminé avec lui.

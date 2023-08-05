@@ -49,6 +49,11 @@ if (UNIX)
         ICON_BIG ${CMAKE_SOURCE_DIR}/icon/MyIcon.icns
         # Other options...
     )
+    if (APPLE)
+        set(MACOSX_BUNDLE_ICON_FILE MyIcon.icns)
+        set(APP_ICON_MACOSX ${CMAKE_SOURCE_DIR}/icon/MyIcon.icns)
+        set_source_files_properties(${APP_ICON_MACOSX} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+    endif ()
 else ()
     juce_add_gui_app(OctaSplit
             PRODUCT_NAME "OctaSplit"
@@ -59,7 +64,12 @@ else ()
 endif()
 
 target_sources(OctaSplit PRIVATE
-    Source/MainComponent.h Source/MainComponent.cpp Source/Main.cpp Source/AudioFileProperties.cpp Source/AudioFileProperties.h
+        Source/MainComponent.h
+        Source/MainComponent.cpp
+        Source/Main.cpp
+        Source/AudioFileProperties.cpp
+        Source/AudioFileProperties.h
+        ${APP_ICON_MACOSX}
 )
 
 if (UNIX AND NOT APPLE)
