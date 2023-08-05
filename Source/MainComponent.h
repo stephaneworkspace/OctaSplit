@@ -32,28 +32,29 @@ public:
 
     bool keyPressed(const juce::KeyPress &key, juce::Component *originatingComponent) override;
 
-    void textEditorTextChanged(juce::TextEditor &editor);
+    void textEditorTextChanged(juce::TextEditor &editor) override;
 
     void fileSelectButtonClicked();
 
 private:
     void timerCallback() override;
 
-    juce::Label fileLabel;
-    juce::Label titleLabel;
-    juce::Label channelsLabel;
-    juce::Label sampleRateLabel;
-    juce::Label durationLabel;
-    juce::Label bpmLabel;
-    juce::TextEditor bpmEditor;
-    juce::Label barLabel;
-    juce::TextEditor barEditor;
-    juce::TextButton closeButton;
-    juce::TextButton splitButton;
-    juce::TextButton fileSelectButton;
-    std::unique_ptr<juce::Drawable> svgDrawable1;
-    std::unique_ptr<juce::Drawable> svgDrawable2;
-    std::unique_ptr<juce::Drawable> svgDrawable3;
+    Label fileLabel;
+    Label titleLabel;
+    Label channelsLabel;
+    Label sampleRateLabel;
+    Label durationLabel;
+    Label bpmLabel;
+    TextEditor bpmEditor;
+    Label barLabel;
+    TextEditor barEditor;
+    TextButton closeButton;
+    TextButton splitButton;
+    TextButton fileSelectButton;
+    TextButton aboutButton;
+    std::unique_ptr<Drawable> svgDrawable1;
+    std::unique_ptr<Drawable> svgDrawable2;
+    std::unique_ptr<Drawable> svgDrawable3;
     float rotationAngle = 0.0f;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)

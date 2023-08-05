@@ -7,6 +7,7 @@ MainComponent::MainComponent() : fileLabel("", "No file loaded..."),
                                  closeButton("Close"),
                                  splitButton("Split"),
                                  fileSelectButton("Select .wav file"),
+                                 aboutButton("About"),
                                  bpmEditor(),
                                  barEditor() {
     setSize(800, 600);
@@ -105,10 +106,11 @@ MainComponent::MainComponent() : fileLabel("", "No file loaded..."),
     addAndMakeVisible(closeButton);
     addAndMakeVisible(splitButton);
     addAndMakeVisible(fileSelectButton);
+    addAndMakeVisible(aboutButton);
 
     titleLabel.setFont(juce::Font (32.0f));
     titleLabel.setJustificationType (juce::Justification::centred);
-    titleLabel.setText("Octatrack wav Split by bressani.dev", juce::dontSendNotification);
+    titleLabel.setText("Octatrack wav Split", juce::dontSendNotification);
     titleLabel.setBounds(10, 20, getWidth() - 20, 40);
 
     durationLabel.setText("", juce::dontSendNotification);
@@ -152,6 +154,9 @@ MainComponent::MainComponent() : fileLabel("", "No file loaded..."),
         try {
             AudioFileProperties afp(fileLabel.getText().toStdString());
             afp.splitByBars(bpm, bars);
+            AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
+                                              "Info",
+                                              "File successfully split !");
             durationLabel.setText ("", dontSendNotification);
             sampleRateLabel.setText ("", dontSendNotification);
             channelsLabel.setText ("", dontSendNotification);
@@ -172,6 +177,13 @@ MainComponent::MainComponent() : fileLabel("", "No file loaded..."),
     fileSelectButton.setButtonText("Select .wav file");
     fileSelectButton.setBounds(getWidth() - 100, 50, 80, 30);
     fileSelectButton.onClick = [this] { fileSelectButtonClicked(); };
+    aboutButton.setButtonText("About");
+    aboutButton.setBounds(getWidth() - 100, 130, 80, 30);
+    aboutButton.onClick = [this] {
+        AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
+                                          "About",
+                                          "This freeware is made by Stephane Bressani - www.bressani.dev");
+    };
 }
 
 MainComponent::~MainComponent() { }
@@ -220,6 +232,7 @@ void MainComponent::resized()
     closeButton.setBounds(getWidth() - 100, 10, 80, 30);
     fileSelectButton.setBounds(getWidth() - 100, 50, 80, 30);
     splitButton.setBounds(getWidth() - 100, 90, 80, 30);
+    aboutButton.setBounds(getWidth() - 100, 140, 80, 30);
 }
 
 bool MainComponent::isInterestedInFileDrag(const juce::StringArray &files) {
