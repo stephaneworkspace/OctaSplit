@@ -36,11 +36,11 @@ public:
 
     bool isInterestedInFileDrag(const StringArray &files) override;
 
-    void filesDropped(const juce::StringArray &files, int x, int y) override;
+    void filesDropped(const StringArray &files, int x, int y) override;
 
-    bool keyPressed(const juce::KeyPress &key, juce::Component *originatingComponent) override;
+    bool keyPressed(const KeyPress &key, Component *originatingComponent) override;
 
-    void textEditorTextChanged(juce::TextEditor &editor) override;
+    void textEditorTextChanged(TextEditor &editor) override;
 
     void fileSelectButtonClicked();
 

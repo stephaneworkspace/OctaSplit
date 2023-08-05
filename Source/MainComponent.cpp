@@ -40,6 +40,7 @@ MainComponent::MainComponent() : fileLabel("", "No file loaded..."),
 
     bpmEditor.addListener(this);
     barEditor.addListener(this);
+    Component::getTopLevelComponent()->addKeyListener(this);
 
     addAndMakeVisible(fileLabel);
     //addAndMakeVisible(titleLabel);
@@ -98,7 +99,9 @@ MainComponent::MainComponent() : fileLabel("", "No file loaded..."),
     aboutButton.onClick = [this] { aboutButtonClicked(); };
 }
 
-MainComponent::~MainComponent() { }
+MainComponent::~MainComponent() {
+    Component::getTopLevelComponent()->removeKeyListener(this);
+}
 
 void MainComponent::paint(Graphics& g)
 {
@@ -148,7 +151,7 @@ void MainComponent::resized()
     aboutButton.setBounds(getWidth() - 100, 140, 80, 30);
 }
 
-bool MainComponent::isInterestedInFileDrag(const juce::StringArray &files) {
+bool MainComponent::isInterestedInFileDrag(const StringArray &files) {
     for(auto &file : files) {
         if (file.endsWith(".wav")) {
             return true;
@@ -157,7 +160,7 @@ bool MainComponent::isInterestedInFileDrag(const juce::StringArray &files) {
     return false;
 }
 
-void MainComponent::filesDropped(const juce::StringArray &files, int x, int y) {
+void MainComponent::filesDropped(const StringArray &files, int x, int y) {
     for(auto &file : files) {
         if (file.endsWith(".wav")) {
             // Vérification si le fichier est valide
@@ -223,15 +226,15 @@ void MainComponent::filesDropped(const juce::StringArray &files, int x, int y) {
     }
 }
 
-bool MainComponent::keyPressed(const juce::KeyPress &key, juce::Component *originatingComponent) {
-    if (key == juce::KeyPress::escapeKey) {
-        juce::JUCEApplication::getInstance()->systemRequestedQuit();
+bool MainComponent::keyPressed(const KeyPress &key, Component *originatingComponent) {
+    if (key == KeyPress::escapeKey) {
+        JUCEApplication::getInstance()->systemRequestedQuit();
         return true;  // Indiquer que l'événement de la touche a été traité
     }
     return false;  // Indiquer que l'événement de la touche n'a pas été traité
 }
 
-void MainComponent::textEditorTextChanged (juce::TextEditor& editor)
+void MainComponent::textEditorTextChanged (TextEditor& editor)
 {
     splitButton.setEnabled(!bpmEditor.getText().isEmpty() && !barEditor.getText().isEmpty());
 }
