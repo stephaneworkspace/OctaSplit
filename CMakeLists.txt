@@ -56,6 +56,7 @@ if (UNIX)
                 INFOPLIST_FILE ${CMAKE_BINARY_DIR}/Info.plist
                 # Other options...
                 )
+        set_target_properties(OctaSplit PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_BINARY_DIR}/Info.plist)
     else ()
         juce_add_gui_app(OctaSplit
                 PRODUCT_NAME "OctaSplit"

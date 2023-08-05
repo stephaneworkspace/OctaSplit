@@ -130,3 +130,4 @@ CPackSourceConfig.cmake
 /OctaSplit.dir/Debug/OctaSplit.vcxproj.FileListAbsolute.txt
 /.vs/OctaSplit/v17/Solution.VC.db-shm
 /.vs/OctaSplit/v17/Solution.VC.db-wal
+/Info.plist
