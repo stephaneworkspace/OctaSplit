@@ -3,6 +3,8 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 #include "AudioFileProperties.h"
 
+using namespace juce;
+
 class MainComponent : public juce::Component,
                       public juce::KeyListener,
                       public juce::TextEditor::Listener,
@@ -161,6 +163,10 @@ public:
             try {
                 AudioFileProperties afp(fileLabel.getText().toStdString());
                 afp.splitByBars(bpm, bars);
+                durationLabel.setText ("", dontSendNotification);
+                sampleRateLabel.setText ("", dontSendNotification);
+                channelsLabel.setText ("", dontSendNotification);
+                fileLabel.setText ("", dontSendNotification);
             } catch (const std::runtime_error& e) {
                 DBG("Error opening file: " << e.what());
                 juce::NativeMessageBox::showMessageBoxAsync(juce::AlertWindow::WarningIcon, "Error", "Error opening file: " + juce::String(e.what()));
@@ -234,6 +240,42 @@ public:
     void filesDropped(const juce::StringArray &files, int x, int y) override {
         for(auto &file : files) {
             if (file.endsWith(".wav")) {
+                // Vérification si le fichier est valide
+                if (files.size() == 1)
+                {
+                    File audioFile(files[0]);
+
+                    SF_INFO sfInfo;
+                    sfInfo.format = 0; // Laissez la libsndfile déterminer le format
+
+                    SNDFILE* file = sf_open(audioFile.getFullPathName().toRawUTF8(), SFM_READ, &sfInfo);
+
+                    if (file == nullptr)
+                    {
+                        // Si le fichier n'est pas un fichier WAV valide, affichez un message d'erreur et réinitialisez le champ fileLabel.
+                        AlertWindow::showMessageBoxAsync (AlertWindow::WarningIcon,
+                                                          "Invalid file",
+                                                          "The selected file is not a valid WAV file.");
+                        fileLabel.setText ("", dontSendNotification);
+                    }
+                    else
+                    {
+                        if ((sfInfo.format & SF_FORMAT_TYPEMASK) != SF_FORMAT_WAV)
+                        {
+                            // Le fichier n'est pas au format WAV
+                            AlertWindow::showMessageBoxAsync (AlertWindow::WarningIcon,
+                                                              "Invalid file",
+                                                              "The selected file is not a valid WAV file.");
+                            fileLabel.setText ("", dontSendNotification);
+                        }
+                        // Le fichier est valide, vous pouvez continuer avec votre traitement.
+                        // N'oubliez pas de fermer le fichier lorsque vous avez terminé avec lui.
+                        sf_close(file);
+
+                        // Votre traitement du fichier ici...
+                    }
+                }
+
                 try {
                     AudioFileProperties afp(file.toStdString());
 
