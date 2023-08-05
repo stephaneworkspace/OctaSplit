@@ -14,6 +14,7 @@ public:
             : fileLabel("", "No file loaded..."),
               closeButton("Close"),
               splitButton("Split"),
+              fileSelectButton("Select .wav file"),
               bpmEditor(),
               barEditor()
     {
@@ -71,6 +72,33 @@ public:
             }
         }
 
+        juce::File svgFile3 {juce::File::getSpecialLocation(juce::File::SpecialLocationType::currentExecutableFile).getSiblingFile("./Assets/bressani.dev.svg")};
+        auto svgFileContent3 = svgFile3.loadFileAsString();
+
+        if (!svgFile3.exists()) {
+            DBG("File doesn't exist: " << svgFile3.getFullPathName());
+        } else {
+            auto svgFileContent3 = svgFile3.loadFileAsString();
+
+            juce::XmlDocument xmlDoc(svgFileContent3);
+            std::unique_ptr<juce::XmlElement> xml(xmlDoc.getDocumentElement());
+
+            if (xml != nullptr && xml->hasTagName("svg")) {
+                svgDrawable3 = juce::Drawable::createFromSVG(*xml);
+
+                if (svgDrawable3 != nullptr) {
+                    svgDrawable3->replaceColour(juce::Colours::black, juce::Colours::white);
+                    addAndMakeVisible(svgDrawable3.get());
+                    svgDrawable3->setTransformToFit(getLocalBounds().toFloat().withSizeKeepingCentre(600, 600), juce::RectanglePlacement::centred);
+                } else {
+                    DBG("Couldn't create Drawable from SVG.");
+                }
+            } else {
+                DBG("XML is null or not an SVG.");
+            }
+        }
+
+
         bpmEditor.addListener(this);
         barEditor.addListener(this);
 
@@ -85,6 +113,7 @@ public:
         addAndMakeVisible(barEditor);
         addAndMakeVisible(closeButton);
         addAndMakeVisible(splitButton);
+        addAndMakeVisible(fileSelectButton);
 
         titleLabel.setFont(juce::Font (32.0f));
         titleLabel.setJustificationType (juce::Justification::centred);
@@ -120,7 +149,7 @@ public:
 
         closeButton.setBounds(getWidth() - 100, 10, 80, 30);
         closeButton.onClick = [this] { juce::JUCEApplication::getInstance()->systemRequestedQuit(); };
-        splitButton.setBounds(getWidth() - 100, 60, 80, 30);
+        splitButton.setBounds(getWidth() - 100, 90, 80, 30);
         splitButton.onClick = [this] {
             if (bpmEditor.getText().isEmpty() || barEditor.getText().isEmpty()) {
                 return;
@@ -138,6 +167,9 @@ public:
                // juce::JUCEApplication::getInstance()->systemRequestedQuit();
             }
         };
+        fileSelectButton.setButtonText("Select .wav file");
+        fileSelectButton.setBounds(getWidth() - 100, 50, 80, 30);
+        fileSelectButton.onClick = [this] { fileSelectButtonClicked(); };
     }
 
     ~MainComponent() override
@@ -173,6 +205,9 @@ public:
         //if (svgDrawable2 != nullptr) {
         //    svgDrawable2->setBounds(getLocalBounds().reduced(10));
         //}
+        if (svgDrawable3 != nullptr) {
+            svgDrawable3->setBounds(getLocalBounds().reduced(10));
+        }
         fileLabel.setBounds(10, getHeight() - 30, getWidth() - 10, 20);
         channelsLabel.setBounds(10, getHeight() -60, getWidth() - 10, 20);
         sampleRateLabel.setBounds(10, getHeight() -90, getWidth() - 10, 20);
@@ -183,7 +218,8 @@ public:
         barLabel.setBounds(500, getHeight() - 60, 100, 40);
         barEditor.setBounds(600, getHeight() - 60, 150, 40);
         closeButton.setBounds(getWidth() - 100, 10, 80, 30);
-        splitButton.setBounds(getWidth() - 100, 60, 80, 30);
+        fileSelectButton.setBounds(getWidth() - 100, 50, 80, 30);
+        splitButton.setBounds(getWidth() - 100, 90, 80, 30);
     }
 
     bool isInterestedInFileDrag(const juce::StringArray &files) override {
@@ -227,6 +263,22 @@ public:
     {
         splitButton.setEnabled(!bpmEditor.getText().isEmpty() && !barEditor.getText().isEmpty());
     }
+
+    void fileSelectButtonClicked()
+    {
+        juce::FileChooser chooser("Select a .wav file", juce::File{}, "*.wav");
+
+        if (chooser.browseForFileToOpen())
+        {
+            auto file = chooser.getResult();
+            // Vous pouvez utiliser 'file' ici comme vous le souhaitez.
+            // Par exemple, vous pouvez l'utiliser pour mettre à jour vos étiquettes, comme dans votre méthode `filesDropped`.
+            juce::StringArray files;
+            files.add(file.getFullPathName());
+            filesDropped(files, 0, 0); // Vous pouvez ajuster les coordonnées x et y si nécessair
+        }
+    }
+
 private:
     void timerCallback() override
     {
@@ -244,8 +296,10 @@ private:
     juce::TextEditor barEditor;
     juce::TextButton closeButton;
     juce::TextButton splitButton;
+    juce::TextButton fileSelectButton;
     std::unique_ptr<juce::Drawable> svgDrawable1;
     std::unique_ptr<juce::Drawable> svgDrawable2;
+    std::unique_ptr<juce::Drawable> svgDrawable3;
     float rotationAngle = 0.0f;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)

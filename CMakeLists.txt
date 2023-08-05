@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-
+add_compile_definitions(JUCE_MODAL_LOOPS_PERMITTED=1)
 if (UNIX AND NOT APPLE)
     set(CMAKE_C_COMPILER "/usr/bin/clang")
     set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
