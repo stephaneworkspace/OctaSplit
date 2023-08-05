@@ -12,6 +12,9 @@ Cet outil est en cours de test finaux. J'ai réalisé une autre version fonction
 - **Compatible multiplateforme** : Fonctionne sur tous les systèmes d'exploitation courants. Testé sur Mac OS 13 Ventura, Windows 10 et Ubuntu 22.04 Gnome.
 - **Découpage des fichiers audio** : Transformez vos fichiers audio en fragments prêts à être utilisés dans l'Octatrack.
 
+## Fonctionnement
+Avec OctaSplit, manipuler vos fichiers audio n'a jamais été aussi simple. Ouvrez un fichier WAV, puis cliquez sur le bouton « Split ». Instantanément, le programme divise votre fichier en plusieurs segments, créant des fichiers tels que nomfichier_00.wav, nomfichier_01.wav, etc. Un outil pratique et efficace pour ceux qui veulent des boucles sur un sampler tel que l'octatrack d'Elektron.
+
 ## Licence
 OctaSplit est publié sous la licence open source GNU General Public License v3.0. Vous êtes libre de modifier, distribuer et utiliser le logiciel en accord avec les termes de cette licence.
 
