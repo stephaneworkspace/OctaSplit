@@ -50,5 +50,14 @@ cmake --build . --config Release
 # Si vous souhaitez copier le fichier exécutable dans un emplacement spécifique, ajoutez la commande ici
 # par exemple :
 # cp OctaSplit.app /chemin/vers/emplacement/souhaité
+#/build/OctaSplit_artefacts/Release
+
+
+
+mkdir bin
+cp -rf ./OctaSplit_artefacts/Release/OctaSplit.app ./bin/OctaSplit.app
+cd bin
+mkdir installer
+create-dmg 'OctaSplit.app' ./installer
 
 echo "Compilation terminée."
