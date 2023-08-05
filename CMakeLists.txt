@@ -131,7 +131,8 @@ else ()
         Source/Main.cpp
         Source/AudioFileProperties.cpp
         Source/AudioFileProperties.h
-        ${APP_ICON_RESOURCE_WINDOWS}
+        icon/app.rc
+        #${APP_ICON_RESOURCE_WINDOWS}
     )
 endif ()
 
