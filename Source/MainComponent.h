@@ -7,6 +7,7 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 #include "AudioFileProperties.h"
 
+using namespace std;
 using namespace juce;
 
 class MainComponent: public Component,
@@ -38,6 +39,7 @@ public:
 
 private:
     void timerCallback() override;
+    unique_ptr<Drawable> loadSVG(const String &path);
 
     Label fileLabel;
     Label titleLabel;
@@ -52,9 +54,9 @@ private:
     TextButton splitButton;
     TextButton fileSelectButton;
     TextButton aboutButton;
-    std::unique_ptr<Drawable> svgDrawable1;
-    std::unique_ptr<Drawable> svgDrawable2;
-    std::unique_ptr<Drawable> svgDrawable3;
+    unique_ptr<Drawable> svgDrawable1;
+    unique_ptr<Drawable> svgDrawable2;
+    unique_ptr<Drawable> svgDrawable3;
     float rotationAngle = 0.0f;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)

@@ -14,82 +14,22 @@ MainComponent::MainComponent() : fileLabel("", "No file loaded..."),
     startTimerHz(60); // Change this value to control the frame rate
     setWantsKeyboardFocus(true); // Ceci permet à MainComponent d'obtenir le focus clavier
 
-    juce::File svgFile1 {juce::File::getSpecialLocation(juce::File::SpecialLocationType::currentExecutableFile).getSiblingFile("./Assets/logobg.svg")};
-    auto svgFileContent1 = svgFile1.loadFileAsString();
-
-    if (!svgFile1.exists()) {
-        DBG("File doesn't exist: " << svgFile1.getFullPathName());
-    } else {
-        auto svgFileContent1 = svgFile1.loadFileAsString();
-
-        juce::XmlDocument xmlDoc(svgFileContent1);
-        std::unique_ptr<juce::XmlElement> xml(xmlDoc.getDocumentElement());
-
-        if (xml != nullptr && xml->hasTagName("svg")) {
-            svgDrawable1 = juce::Drawable::createFromSVG(*xml);
-
-            if (svgDrawable1 != nullptr) {
-                addAndMakeVisible(svgDrawable1.get());
-                svgDrawable1->setTransformToFit(getLocalBounds().toFloat().withSizeKeepingCentre(600, 600), juce::RectanglePlacement::centred);
-            } else {
-                DBG("Couldn't create Drawable from SVG.");
-            }
-        } else {
-            DBG("XML is null or not an SVG.");
-        }
+    // Loading SVGs
+    svgDrawable1 = loadSVG("./Assets/logobg.svg");
+    if (svgDrawable1 != nullptr) {
+        addAndMakeVisible(svgDrawable1.get());
+        svgDrawable1->setTransformToFit(getLocalBounds().toFloat().withSizeKeepingCentre(600, 600), juce::RectanglePlacement::centred);
     }
-
-    juce::File svgFile2 {juce::File::getSpecialLocation(juce::File::SpecialLocationType::currentExecutableFile).getSiblingFile("./Assets/logo.svg")};
-    auto svgFileContent2 = svgFile2.loadFileAsString();
-
-    if (!svgFile2.exists()) {
-        DBG("File doesn't exist: " << svgFile2.getFullPathName());
-    } else {
-        auto svgFileContent2 = svgFile2.loadFileAsString();
-
-        juce::XmlDocument xmlDoc(svgFileContent2);
-        std::unique_ptr<juce::XmlElement> xml(xmlDoc.getDocumentElement());
-
-        if (xml != nullptr && xml->hasTagName("svg")) {
-            svgDrawable2 = juce::Drawable::createFromSVG(*xml);
-
-            if (svgDrawable2 != nullptr) {
-                //addAndMakeVisible(svgDrawable2.get());
-                svgDrawable2->setTransformToFit(getLocalBounds().toFloat().withSizeKeepingCentre(300, 300), juce::RectanglePlacement::centred);
-            } else {
-                DBG("Couldn't create Drawable from SVG.");
-            }
-        } else {
-            DBG("XML is null or not an SVG.");
-        }
+    svgDrawable2 = loadSVG("./Assets/logo.svg");
+    if (svgDrawable2 != nullptr) {
+        svgDrawable2->setTransformToFit(getLocalBounds().toFloat().withSizeKeepingCentre(300, 300), juce::RectanglePlacement::centred);
     }
-
-    juce::File svgFile3 {juce::File::getSpecialLocation(juce::File::SpecialLocationType::currentExecutableFile).getSiblingFile("./Assets/bressani.dev.svg")};
-    auto svgFileContent3 = svgFile3.loadFileAsString();
-
-    if (!svgFile3.exists()) {
-        DBG("File doesn't exist: " << svgFile3.getFullPathName());
-    } else {
-        auto svgFileContent3 = svgFile3.loadFileAsString();
-
-        juce::XmlDocument xmlDoc(svgFileContent3);
-        std::unique_ptr<juce::XmlElement> xml(xmlDoc.getDocumentElement());
-
-        if (xml != nullptr && xml->hasTagName("svg")) {
-            svgDrawable3 = juce::Drawable::createFromSVG(*xml);
-
-            if (svgDrawable3 != nullptr) {
-                svgDrawable3->replaceColour(juce::Colours::black, juce::Colours::white);
-                addAndMakeVisible(svgDrawable3.get());
-                svgDrawable3->setTransformToFit(getLocalBounds().toFloat().withSizeKeepingCentre(600, 600), juce::RectanglePlacement::centred);
-            } else {
-                DBG("Couldn't create Drawable from SVG.");
-            }
-        } else {
-            DBG("XML is null or not an SVG.");
-        }
+    svgDrawable3 = loadSVG("./Assets/bressani.dev.svg");
+    if (svgDrawable3 != nullptr) {
+        svgDrawable3->replaceColour(juce::Colours::black, juce::Colours::white);
+        addAndMakeVisible(svgDrawable3.get());
+        svgDrawable3->setTransformToFit(getLocalBounds().toFloat().withSizeKeepingCentre(600, 600), juce::RectanglePlacement::centred);
     }
-
 
     bpmEditor.addListener(this);
     barEditor.addListener(this);
@@ -120,7 +60,6 @@ MainComponent::MainComponent() : fileLabel("", "No file loaded..."),
     channelsLabel.setText("", juce::dontSendNotification);
     channelsLabel.setBounds(10, getHeight() - 120, getWidth() - 20, 20);
 
-    // fileLabel.setFont(juce::Font("Arial", 12.0f, juce::Font::plain));
     fileLabel.setBounds(10, getHeight() - 30, getWidth() - 20, 20);
 
 
@@ -341,4 +280,23 @@ void MainComponent::fileSelectButtonClicked()
 void MainComponent::timerCallback()
 {
     update();
+}
+
+unique_ptr<Drawable> MainComponent::loadSVG(const String &path) {
+    File svgFile{File::getSpecialLocation(File::SpecialLocationType::currentExecutableFile).getSiblingFile(path)};
+    if (!svgFile.exists()) {
+        DBG("File doesn't exist: " << svgFile.getFullPathName());
+        return nullptr;
+    }
+
+    auto svgFileContent = svgFile.loadFileAsString();
+    XmlDocument xmlDoc(svgFileContent);
+    unique_ptr<XmlElement> xml(xmlDoc.getDocumentElement());
+
+    if (xml != nullptr && xml->hasTagName("svg")) {
+        return Drawable::createFromSVG(*xml);
+    } else {
+        DBG("XML is null or not an SVG.");
+        return nullptr;
+    }
 }
