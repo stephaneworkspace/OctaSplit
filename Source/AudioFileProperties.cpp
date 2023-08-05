@@ -60,15 +60,10 @@ int AudioFileProperties::getPcmBitDepth() const {
 }
 
 void AudioFileProperties::process16Bit(int framesPerBar, int totalBars) {
-    /*std::cout << "getFrames: " << getFrames() << std::endl;
-    std::cout << "framesPerBar: " << framesPerBar << std::endl;
-    std::cout << "totalBars: " << totalBars << std::endl;
-    std::cout << "mult: " << framesPerBar * totalBars << std::endl;
-    std::cout << "reste: " << getFrames() - framesPerBar * totalBars << std::endl;*/
-
-    const int64_t remainder = getFrames() - (framesPerBar * totalBars);
-
     // Process 16-bit PCM data...
+
+    // Reste
+    const int64_t remainder = getFrames() - (framesPerBar * totalBars);
 
     // Préparer le nom du fichier de sortie
     std::string outFileName;
@@ -121,7 +116,6 @@ void AudioFileProperties::process16Bit(int framesPerBar, int totalBars) {
         } else {
             // Écrire les frames dans le fichier de sortie
             sf_writef_short(outFile, buffer_remainder.data(), remainder);
-
             // Fermer le fichier de sortie
             sf_close(outFile);
         }
@@ -131,6 +125,9 @@ void AudioFileProperties::process16Bit(int framesPerBar, int totalBars) {
 void AudioFileProperties::process24Bit(int framesPerBar, int totalBars) {
     // Process 24-bit PCM data...
 
+    // Reste
+    const int64_t remainder = getFrames() - (framesPerBar * totalBars);
+
     // Préparer le nom du fichier de sortie
     std::string outFileName;
 
@@ -139,6 +136,7 @@ void AudioFileProperties::process24Bit(int framesPerBar, int totalBars) {
     SNDFILE* outFile;
 
     std::vector<int> buffer(framesPerBar * getChannels());
+    std::vector<int> buffer_remainder(remainder * getChannels());
 
     for (int bar = 0; bar < totalBars; ++bar) {
         // Lire les frames de la mesure actuelle
@@ -163,11 +161,35 @@ void AudioFileProperties::process24Bit(int framesPerBar, int totalBars) {
         // Fermer le fichier de sortie
         sf_close(outFile);
     }
+    if (remainder > 0) {
+        int bar = totalBars;
+        // Lire les frames de la mesure actuelle
+        sf_seek(file, framesPerBar * totalBars, SEEK_SET);
+        sf_readf_int(file, buffer_remainder.data(), remainder);
 
+        std::ostringstream ss;
+        ss << std::setw(2) << std::setfill('0') << bar;
+        outFileName = getFilePathWithoutExt() + "_" + ss.str() + ".wav";
+        outFileInfo = info;
+        outFileInfo.frames = remainder;
+        outFile = sf_open(outFileName.c_str(), SFM_WRITE, &outFileInfo);
+
+        if (!outFile) {
+            std::cout << "Cannot open output file: " << outFileName << std::endl;
+        } else {
+            // Écrire les frames dans le fichier de sortie
+            sf_writef_int(outFile, buffer_remainder.data(), remainder);
+            // Fermer le fichier de sortie
+            sf_close(outFile);
+        }
+    }
 }
 
 void AudioFileProperties::process32Bit(int framesPerBar, int totalBars) {
     // Process 32-bit PCM data...
+
+    // Reste
+    const int64_t remainder = getFrames() - (framesPerBar * totalBars);
 
     // Préparer le nom du fichier de sortie
     std::string outFileName;
@@ -177,6 +199,7 @@ void AudioFileProperties::process32Bit(int framesPerBar, int totalBars) {
     SNDFILE* outFile;
 
     std::vector<float> buffer(framesPerBar * getChannels());
+    std::vector<float> buffer_remainder(remainder * getChannels());
 
     for (int bar = 0; bar < totalBars; ++bar) {
         // Lire les frames de la mesure actuelle
@@ -202,7 +225,28 @@ void AudioFileProperties::process32Bit(int framesPerBar, int totalBars) {
         // Fermer le fichier de sortie
         sf_close(outFile);
     }
+    if (remainder > 0) {
+        int bar = totalBars;
+        // Lire les frames de la mesure actuelle
+        sf_seek(file, framesPerBar * totalBars, SEEK_SET);
+        sf_readf_float(file, buffer_remainder.data(), remainder);
 
+        std::ostringstream ss;
+        ss << std::setw(2) << std::setfill('0') << bar;
+        outFileName = getFilePathWithoutExt() + "_" + ss.str() + ".wav";
+        outFileInfo = info;
+        outFileInfo.frames = remainder;
+        outFile = sf_open(outFileName.c_str(), SFM_WRITE, &outFileInfo);
+
+        if (!outFile) {
+            std::cout << "Cannot open output file: " << outFileName << std::endl;
+        } else {
+            // Écrire les frames dans le fichier de sortie
+            sf_writef_float(outFile, buffer_remainder.data(), remainder);
+            // Fermer le fichier de sortie
+            sf_close(outFile);
+        }
+    }
 }
 
 void AudioFileProperties::splitByBars(float bpm, int bars) {
