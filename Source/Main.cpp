@@ -35,14 +35,14 @@ public:
 class MyApp : public JUCEApplication {
 public:
     MyApp() {
-        std::ifstream file(".env");
-        std::string line;
-        std::map<std::string, std::string> env;
+        ifstream file(".env");
+        string line;
+        map<string, string> env;
 
-        while (std::getline(file, line)) {
-            std::istringstream iss(line);
-            std::string key, val;
-            std::getline(std::getline(iss, key, '='), val);
+        while (getline(file, line)) {
+            istringstream iss(line);
+            string key, val;
+            getline(getline(iss, key, '='), val);
             env[key] = val;
         }
 
@@ -66,8 +66,8 @@ public:
 
 private:
     unique_ptr<MainWindow> mainWindow;
-    std::string appName;
-    std::string appVersion;
+    string appName;
+    string appVersion;
 };
 
 START_JUCE_APPLICATION(MyApp)

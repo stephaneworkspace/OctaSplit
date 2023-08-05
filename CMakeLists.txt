@@ -108,6 +108,9 @@ endif()
 
 if (APPLE)
     target_sources(OctaSplit PRIVATE
+            .env
+        Source/Misc.h
+        Source/Misc.cpp
         Source/MainComponent.h
         Source/MainComponent.cpp
         Source/Main.cpp
@@ -117,6 +120,9 @@ if (APPLE)
     )
 else ()
     target_sources(OctaSplit PRIVATE
+            .env
+            Source/Misc.h
+            Source/Misc.cpp
             Source/MainComponent.h
             Source/MainComponent.cpp
             Source/Main.cpp

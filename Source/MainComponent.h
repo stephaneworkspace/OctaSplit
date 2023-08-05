@@ -2,9 +2,16 @@
 // Created by Stéphane on 05.08.23.
 //
 #pragma once
+#include <string>
+#include <limits.h>
+#include <unistd.h>
 #include <vector>
+#include <fstream>
+#include <sstream>
+#include <map>
 #include <juce_audio_basics/juce_audio_basics.h>
 #include <juce_gui_basics/juce_gui_basics.h>
+#include "Misc.h"
 #include "AudioFileProperties.h"
 
 using namespace std;
@@ -46,6 +53,7 @@ private:
     void loadPNG(const String& path);
     unique_ptr<Drawable> loadSVG(const String &path);
 
+    string appVersion;
     Label fileLabel;
     //Label titleLabel;
     Label channelsLabel;

@@ -10,6 +10,12 @@ MainComponent::MainComponent() : fileLabel("", "No file loaded..."),
                                  aboutButton("About"),
                                  bpmEditor(),
                                  barEditor() {
+    // Open .env
+
+    Misc misc;
+    appVersion = misc.getAppVersion();
+
+    // JUCE settings
     setSize(800, 600);
     startTimerHz(60); // Change this value to control the frame rate
     setWantsKeyboardFocus(true); // Ceci permet à MainComponent d'obtenir le focus clavier
@@ -279,7 +285,7 @@ void MainComponent::aboutButtonClicked()
 {
     AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
                                       "About",
-                                      "This freeware is made by Stephane Bressani - www.bressani.dev");
+                                      "This freeware is made by Stephane Bressani - www.bressani.dev\nVersion: " + appVersion);
 }
 
 void MainComponent::timerCallback()
@@ -287,7 +293,7 @@ void MainComponent::timerCallback()
     update();
 }
 
-void  MainComponent::loadPNG(const juce::String& path)
+void MainComponent::loadPNG(const juce::String& path)
 {
     auto inputStream = std::make_unique<juce::FileInputStream>(juce::File(path));
     pngImage = juce::PNGImageFormat().decodeImage(*inputStream);
