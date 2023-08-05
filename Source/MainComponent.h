@@ -37,6 +37,10 @@ public:
 
     void fileSelectButtonClicked();
 
+    void splitButtonClicked();
+
+    void aboutButtonClicked();
+
 private:
     void timerCallback() override;
     unique_ptr<Drawable> loadSVG(const String &path);

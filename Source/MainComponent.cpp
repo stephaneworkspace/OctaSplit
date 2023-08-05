@@ -82,47 +82,13 @@ MainComponent::MainComponent() : fileLabel("", "No file loaded..."),
     closeButton.setBounds(getWidth() - 100, 10, 80, 30);
     closeButton.onClick = [this] { juce::JUCEApplication::getInstance()->systemRequestedQuit(); };
     splitButton.setBounds(getWidth() - 100, 90, 80, 30);
-    splitButton.onClick = [this] {
-        if (bpmEditor.getText().isEmpty() || barEditor.getText().isEmpty()) {
-            return;
-        }
-
-        float bpm = bpmEditor.getText().getFloatValue();
-        int bars = barEditor.getText().getIntValue();
-
-        try {
-            AudioFileProperties afp(fileLabel.getText().toStdString());
-            afp.splitByBars(bpm, bars);
-            AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
-                                              "Info",
-                                              "File successfully split !");
-            durationLabel.setText ("", dontSendNotification);
-            sampleRateLabel.setText ("", dontSendNotification);
-            channelsLabel.setText ("", dontSendNotification);
-            fileLabel.setText ("No file loaded...", dontSendNotification);
-        } catch (const std::runtime_error& e) {
-            //DBG("Error opening file: " << e.what());
-            //juce::NativeMessageBox::showMessageBoxAsync(juce::AlertWindow::WarningIcon, "Error", "Error opening file: " + juce::String(e.what()));
-            // juce::JUCEApplication::getInstance()->systemRequestedQuit();
-            AlertWindow::showMessageBoxAsync (AlertWindow::WarningIcon,
-                                              "Error",
-                                              "Can't open file.");
-            fileLabel.setText ("No file loaded...", dontSendNotification);
-            durationLabel.setText ("", dontSendNotification);
-            sampleRateLabel.setText ("", dontSendNotification);
-            channelsLabel.setText ("", dontSendNotification);
-        }
-    };
+    splitButton.onClick = [this] { splitButtonClicked(); };
     fileSelectButton.setButtonText("Select .wav file");
     fileSelectButton.setBounds(getWidth() - 100, 50, 80, 30);
     fileSelectButton.onClick = [this] { fileSelectButtonClicked(); };
     aboutButton.setButtonText("About");
     aboutButton.setBounds(getWidth() - 100, 130, 80, 30);
-    aboutButton.onClick = [this] {
-        AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
-                                          "About",
-                                          "This freeware is made by Stephane Bressani - www.bressani.dev");
-    };
+    aboutButton.onClick = [this] { aboutButtonClicked(); };
 }
 
 MainComponent::~MainComponent() { }
@@ -275,6 +241,43 @@ void MainComponent::fileSelectButtonClicked()
         files.add(file.getFullPathName());
         filesDropped(files, 0, 0); // Vous pouvez ajuster les coordonnées x et y si nécessair
     }
+}
+
+void MainComponent::splitButtonClicked()
+{
+    if (bpmEditor.getText().isEmpty() || barEditor.getText().isEmpty()) {
+        return;
+    }
+
+    float bpm = bpmEditor.getText().getFloatValue();
+    int bars = barEditor.getText().getIntValue();
+
+    try {
+        AudioFileProperties afp(fileLabel.getText().toStdString());
+        afp.splitByBars(bpm, bars);
+        AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
+                                          "Info",
+                                          "File successfully split !");
+        durationLabel.setText ("", dontSendNotification);
+        sampleRateLabel.setText ("", dontSendNotification);
+        channelsLabel.setText ("", dontSendNotification);
+        fileLabel.setText ("No file loaded...", dontSendNotification);
+    } catch (const std::runtime_error& e) {
+        AlertWindow::showMessageBoxAsync (AlertWindow::WarningIcon,
+                                          "Error",
+                                          "Can't open file.");
+        fileLabel.setText ("No file loaded...", dontSendNotification);
+        durationLabel.setText ("", dontSendNotification);
+        sampleRateLabel.setText ("", dontSendNotification);
+        channelsLabel.setText ("", dontSendNotification);
+    }
+}
+
+void MainComponent::aboutButtonClicked()
+{
+    AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
+                                      "About",
+                                      "This freeware is made by Stephane Bressani - www.bressani.dev");
 }
 
 void MainComponent::timerCallback()
