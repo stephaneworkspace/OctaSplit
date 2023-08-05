@@ -2,13 +2,13 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleExecutable</key>
-    <string>OctaSplit</string>
+    <string>@MY_APP_NAME@</string>
     <key>CFBundleIconFile</key>
     <string>@MY_ICON_NAME@.icns</string>
     <key>CFBundleIdentifier</key>
     <string>bressani.dev.octasplit</string>
     <key>CFBundleName</key>
-    <string>OctaSplit</string>
+    <string>@MY_APP_NAME@</string>
     <key>CFBundleDisplayName</key>
     <string>OctaSplit</string>
     <key>CFBundlePackageType</key>
@@ -16,9 +16,9 @@
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleShortVersionString</key>
-    <string>0.0.1</string>
+    <string>@MY_APP_VERSION@</string>
     <key>CFBundleVersion</key>
-    <string>0.0.1</string>
+    <string>@MY_APP_VERSION@</string>
     <key>NSHumanReadableCopyright</key>
     <string></string>
     <key>NSHighResolutionCapable</key>
