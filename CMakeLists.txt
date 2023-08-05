@@ -41,14 +41,22 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(portaudio libsndfile juce)
 
-juce_add_gui_app(OctaSplit
-    PRODUCT_NAME "OctaSplit"
-    COMPANY_NAME "Stéphane Bressani - bressani.dev"
-    BUNDLE_ID "bressani.dev.octasplit"
-    ICON_BIG ${CMAKE_SOURCE_DIR}/icon/MyIcon.icns
-    # Other options...
-)
-
+if (UNIX)
+    juce_add_gui_app(OctaSplit
+        PRODUCT_NAME "OctaSplit"
+        COMPANY_NAME "Stéphane Bressani - bressani.dev"
+        BUNDLE_ID "bressani.dev.octasplit"
+        ICON_BIG ${CMAKE_SOURCE_DIR}/icon/MyIcon.icns
+        # Other options...
+    )
+else ()
+    juce_add_gui_app(OctaSplit
+            PRODUCT_NAME "OctaSplit"
+            COMPANY_NAME "Stéphane Bressani - bressani.dev"
+            BUNDLE_ID "bressani.dev.octasplit"
+            # Other options...
+    )
+endif()
 
 target_sources(OctaSplit PRIVATE
     Source/Main.cpp Source/AudioFileProperties.cpp Source/AudioFileProperties.h
@@ -67,15 +75,23 @@ if (UNIX AND NOT APPLE)
     target_link_libraries(OctaSplit PRIVATE ${GTK_LIBRARIES} ${WEBKIT2GTK_LIBRARIES} ${CURL_LIBRARIES})
 endif ()
 
-
-# Link the libraries to your target
-target_link_libraries(OctaSplit PRIVATE
-    ${portaudio_BINARY_DIR}/libportaudio.a
-    sndfile
-    juce::juce_audio_utils
-    # Other JUCE modules, third-party libraries...
-)
-
+if (UNIX)
+    # Link the libraries to your target
+    target_link_libraries(OctaSplit PRIVATE
+        ${portaudio_BINARY_DIR}/libportaudio.a
+        sndfile
+        juce::juce_audio_utils
+        # Other JUCE modules, third-party libraries...
+    )
+else ()
+    # Link the libraries to your target
+    target_link_libraries(OctaSplit PRIVATE
+            "C:/Users/Steee/CLionProjects/2023/portaudio-19.7.0/build/Debug/portaudio_static_x64.lib"
+            sndfile
+            juce::juce_audio_utils
+            # Other JUCE modules, third-party libraries...
+    )
+endif ()
 add_custom_command(TARGET OctaSplit POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/Assets/ $<TARGET_FILE_DIR:OctaSplit>/Assets/)

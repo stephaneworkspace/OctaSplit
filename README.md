@@ -23,6 +23,17 @@ Pour plus de détails sur la licence, veuillez consulter le fichier `LICENSE` in
 
 J'ai développé sur une machine MacOs 13 Ventura et le programme fonctionne sans problème.
 
+**Windows**
+Il faut la librairie portaudio. (https://github.com/PortAudio/portaudio)
+cd build
+cmake ..
+Ouvrir en admin la solution visual studio et compiler la libraiaire
+
+ensuite modifier le CMakeFile.txt de ce projet:
+"C:/Users/Steee/CLionProjects/2023/portaudio-19.7.0/build/Debug/portaudio_static_x64.lib"
+
+et compiler avec Visual Studio une fois cmake executé
+
 **Ubuntu**
 
 sudo apt-get install libfreetype6-dev libgtk-3-dev libwebkit2gtk-4.0-dev
