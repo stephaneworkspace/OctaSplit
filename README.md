@@ -33,10 +33,10 @@ Compiler avec cmake. Vous devrez peut-être ajouter les bibliothèques portaudio
 ### Windows
 Nécessite la bibliothèque portaudio. (https://github.com/PortAudio/portaudio)
 
-\`\`\`
+```
 cd build
 cmake ..
-\`\`\`
+```
 
 Ouvrez en administrateur la solution Visual Studio et compilez la bibliothèque. Ensuite, modifiez le CMakeFile.txt de ce projet avec le chemin approprié, et compilez ce projet (OctaSplit) avec cmake et Visual Studio.
 
@@ -44,9 +44,9 @@ Ouvrez en administrateur la solution Visual Studio et compilez la bibliothèque.
 
 Nécessite clang.
 
-\`\`\`
+```
 sudo apt-get install libfreetype6-dev libgtk-3-dev libwebkit2gtk-4.0-dev
-\`\`\`
+```
 
 Sur mon bureau Ubuntu 22.04 Gnome, j'ai un problème avec la fonction de glisser-déposer qui ne fonctionne pas. Pour charger un fichier .wav à découper, utilisez le bouton prévu à cet effet.
 
