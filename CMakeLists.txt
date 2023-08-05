@@ -100,6 +100,7 @@ if (UNIX)
                 )
     endif ()
 else ()
+    set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_SOURCE_DIR}/icon/ap.rc")
     juce_add_gui_app(OctaSplit
             PRODUCT_NAME "OctaSplit"
             COMPANY_NAME "Stéphane Bressani - bressani.dev"
@@ -122,15 +123,16 @@ if (APPLE)
     )
 else ()
     target_sources(OctaSplit PRIVATE
-            .env
-            Source/Misc.h
-            Source/Misc.cpp
-            Source/MainComponent.h
-            Source/MainComponent.cpp
-            Source/Main.cpp
-            Source/AudioFileProperties.cpp
-            Source/AudioFileProperties.h
-            )
+        .env
+        Source/Misc.h
+        Source/Misc.cpp
+        Source/MainComponent.h
+        Source/MainComponent.cpp
+        Source/Main.cpp
+        Source/AudioFileProperties.cpp
+        Source/AudioFileProperties.h
+        ${APP_ICON_RESOURCE_WINDOWS}
+    )
 endif ()
 
 if (UNIX AND NOT APPLE)
