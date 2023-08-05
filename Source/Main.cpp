@@ -3,6 +3,7 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 #include "MainComponent.h"
 
+using namespace std;
 using namespace juce;
 
 class MainWindow : public DocumentWindow {
@@ -47,7 +48,7 @@ public:
     void anotherInstanceStarted(const String&) override {}
 
 private:
-    std::unique_ptr<MainWindow> mainWindow;
+    unique_ptr<MainWindow> mainWindow;
 };
 
 START_JUCE_APPLICATION(MyApp)
