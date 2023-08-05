@@ -8,6 +8,8 @@
 #include <iostream>
 #include <stdexcept>
 #include <regex>
+#include <sstream>
+#include <iomanip>
 
 class AudioFileProperties
 {

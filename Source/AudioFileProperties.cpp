@@ -76,7 +76,9 @@ void AudioFileProperties::process16Bit(int framesPerBar, int totalBars) {
         sf_seek(file, bar * framesPerBar, SEEK_SET);
         sf_readf_short(file, buffer.data(), framesPerBar);
 
-        outFileName = getFilePathWithoutExt() + "_" + std::to_string(bar) + ".wav";
+        std::ostringstream ss;
+        ss << std::setw(2) << std::setfill('0') << bar;
+        outFileName = getFilePathWithoutExt() + "_" + ss.str() + ".wav";
         outFileInfo = info;
         outFileInfo.frames = framesPerBar;
         outFile = sf_open(outFileName.c_str(), SFM_WRITE, &outFileInfo);
@@ -112,7 +114,9 @@ void AudioFileProperties::process24Bit(int framesPerBar, int totalBars) {
         sf_seek(file, bar * framesPerBar, SEEK_SET);
         sf_readf_int(file, buffer.data(), framesPerBar);
 
-        outFileName = getFilePathWithoutExt() + "_" + std::to_string(bar) + ".wav";
+        std::ostringstream ss;
+        ss << std::setw(2) << std::setfill('0') << bar;
+        outFileName = getFilePathWithoutExt() + "_" + ss.str() + ".wav";
         outFileInfo = info;
         outFileInfo.frames = framesPerBar;
         outFile = sf_open(outFileName.c_str(), SFM_WRITE, &outFileInfo);
@@ -148,7 +152,10 @@ void AudioFileProperties::process32Bit(int framesPerBar, int totalBars) {
         sf_seek(file, bar * framesPerBar, SEEK_SET);
         sf_readf_float(file, buffer.data(), framesPerBar);
 
-        outFileName = getFilePathWithoutExt() + "_" + std::to_string(bar) + ".wav";
+        std::ostringstream ss;
+        ss << std::setw(2) << std::setfill('0') << bar;
+        outFileName = getFilePathWithoutExt() + "_" + ss.str() + ".wav";
+        //outFileName = getFilePathWithoutExt() + "_" + std::to_string(bar) + ".wav";
         outFileInfo = info;
         outFileInfo.frames = framesPerBar;
         outFile = sf_open(outFileName.c_str(), SFM_WRITE, &outFileInfo);
