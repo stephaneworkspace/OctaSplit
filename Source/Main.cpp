@@ -8,7 +8,8 @@ class MainComponent : public juce::Component,
                       public juce::KeyListener,
                       public juce::TextEditor::Listener,
                       public juce::DragAndDropContainer,
-                      public juce::FileDragAndDropTarget {
+                      public juce::FileDragAndDropTarget,
+                      private juce::Timer {
 public:
     MainComponent()
             : fileLabel("", "No file loaded..."),
@@ -18,25 +19,51 @@ public:
               barEditor()
     {
         setSize(800, 600);
+        startTimerHz(60); // Change this value to control the frame rate
         setWantsKeyboardFocus(true); // Ceci permet à MainComponent d'obtenir le focus clavier
 
-        juce::File svgFile {juce::File::getSpecialLocation(juce::File::SpecialLocationType::currentExecutableFile).getSiblingFile("./Assets/drag_and_drop_wav.svg")};
-        auto svgFileContent = svgFile.loadFileAsString();
+        juce::File svgFile1 {juce::File::getSpecialLocation(juce::File::SpecialLocationType::currentExecutableFile).getSiblingFile("./Assets/logobg.svg")};
+        auto svgFileContent1 = svgFile1.loadFileAsString();
 
-        if (!svgFile.exists()) {
-            DBG("File doesn't exist: " << svgFile.getFullPathName());
+        if (!svgFile1.exists()) {
+            DBG("File doesn't exist: " << svgFile1.getFullPathName());
         } else {
-            auto svgFileContent = svgFile.loadFileAsString();
+            auto svgFileContent1 = svgFile1.loadFileAsString();
 
-            juce::XmlDocument xmlDoc(svgFileContent);
+            juce::XmlDocument xmlDoc(svgFileContent1);
             std::unique_ptr<juce::XmlElement> xml(xmlDoc.getDocumentElement());
 
             if (xml != nullptr && xml->hasTagName("svg")) {
-                svgDrawable = juce::Drawable::createFromSVG(*xml);
+                svgDrawable1 = juce::Drawable::createFromSVG(*xml);
 
-                if (svgDrawable != nullptr) {
-                    addAndMakeVisible(svgDrawable.get());
-                    svgDrawable->setTransformToFit(getLocalBounds().toFloat().withSizeKeepingCentre(400, 400), juce::RectanglePlacement::centred);
+                if (svgDrawable1 != nullptr) {
+                    addAndMakeVisible(svgDrawable1.get());
+                    svgDrawable1->setTransformToFit(getLocalBounds().toFloat().withSizeKeepingCentre(600, 600), juce::RectanglePlacement::centred);
+                } else {
+                    DBG("Couldn't create Drawable from SVG.");
+                }
+            } else {
+                DBG("XML is null or not an SVG.");
+            }
+        }
+
+        juce::File svgFile2 {juce::File::getSpecialLocation(juce::File::SpecialLocationType::currentExecutableFile).getSiblingFile("./Assets/logo.svg")};
+        auto svgFileContent2 = svgFile2.loadFileAsString();
+
+        if (!svgFile2.exists()) {
+            DBG("File doesn't exist: " << svgFile2.getFullPathName());
+        } else {
+            auto svgFileContent2 = svgFile2.loadFileAsString();
+
+            juce::XmlDocument xmlDoc(svgFileContent2);
+            std::unique_ptr<juce::XmlElement> xml(xmlDoc.getDocumentElement());
+
+            if (xml != nullptr && xml->hasTagName("svg")) {
+                svgDrawable2 = juce::Drawable::createFromSVG(*xml);
+
+                if (svgDrawable2 != nullptr) {
+                    //addAndMakeVisible(svgDrawable2.get());
+                    svgDrawable2->setTransformToFit(getLocalBounds().toFloat().withSizeKeepingCentre(300, 300), juce::RectanglePlacement::centred);
                 } else {
                     DBG("Couldn't create Drawable from SVG.");
                 }
@@ -122,13 +149,31 @@ public:
     {
         g.fillAll(getLookAndFeel().findColour(
                 juce::ResizableWindow::backgroundColourId));
+        if (svgDrawable2)
+        {
+            svgDrawable2->draw(g, 1.0f,
+                               juce::AffineTransform::rotation(rotationAngle,
+                                                               getLocalBounds().getCentreX(),
+                                                               getLocalBounds().getCentreY()));
+        }
+    }
+
+    void update()
+    {
+        rotationAngle += 0.01f; // Change this value to control the speed of rotation
+        if (rotationAngle > juce::MathConstants<float>::twoPi)
+            rotationAngle -= juce::MathConstants<float>::twoPi;
+        repaint();
     }
 
     void resized() override
     {
-        if (svgDrawable != nullptr) {
-            svgDrawable->setBounds(getLocalBounds().reduced(10));
+        if (svgDrawable1 != nullptr) {
+            svgDrawable1->setBounds(getLocalBounds().reduced(10));
         }
+        //if (svgDrawable2 != nullptr) {
+        //    svgDrawable2->setBounds(getLocalBounds().reduced(10));
+        //}
         fileLabel.setBounds(10, getHeight() - 30, getWidth() - 10, 20);
         channelsLabel.setBounds(10, getHeight() -60, getWidth() - 10, 20);
         sampleRateLabel.setBounds(10, getHeight() -90, getWidth() - 10, 20);
@@ -184,6 +229,11 @@ public:
         splitButton.setEnabled(!bpmEditor.getText().isEmpty() && !barEditor.getText().isEmpty());
     }
 private:
+    void timerCallback() override
+    {
+        update();
+    }
+
     juce::Label fileLabel;
     juce::Label titleLabel;
     juce::Label channelsLabel;
@@ -195,7 +245,9 @@ private:
     juce::TextEditor barEditor;
     juce::TextButton closeButton;
     juce::TextButton splitButton;
-    std::unique_ptr<juce::Drawable> svgDrawable;
+    std::unique_ptr<juce::Drawable> svgDrawable1;
+    std::unique_ptr<juce::Drawable> svgDrawable2;
+    float rotationAngle = 0.0f;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent)
 };
