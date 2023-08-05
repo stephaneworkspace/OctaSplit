@@ -53,6 +53,7 @@ private:
     void loadPNG(const String& path);
     unique_ptr<Drawable> loadSVG(const String &path);
 
+    string appName;
     string appVersion;
     Label fileLabel;
     //Label titleLabel;

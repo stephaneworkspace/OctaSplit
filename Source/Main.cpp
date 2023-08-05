@@ -1,8 +1,6 @@
-#include <fstream>
-#include <sstream>
-#include <map>
 #include <juce_audio_basics/juce_audio_basics.h>
 #include <juce_gui_basics/juce_gui_basics.h>
+#include "Misc.h"
 #include "MainComponent.h"
 
 using namespace std;
@@ -35,19 +33,10 @@ public:
 class MyApp : public JUCEApplication {
 public:
     MyApp() {
-        ifstream file(".env");
-        string line;
-        map<string, string> env;
-
-        while (getline(file, line)) {
-            istringstream iss(line);
-            string key, val;
-            getline(getline(iss, key, '='), val);
-            env[key] = val;
-        }
-
-        appName = env.count("APP_NAME") ? env["APP_NAME"] : "OctaSplit";
-        appVersion = env.count("APP_VERSION") ? env["APP_VERSION"] : "Unknown Version";
+        // Open .env
+        Misc misc;
+        appName = misc.getAppName();
+        appVersion = misc.getAppVersion();
     }
     const String getApplicationName() override { return String(appName); }
     const String getApplicationVersion() override { return String(appVersion); }

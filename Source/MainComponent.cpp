@@ -11,8 +11,8 @@ MainComponent::MainComponent() : fileLabel("", "No file loaded..."),
                                  bpmEditor(),
                                  barEditor() {
     // Open .env
-
     Misc misc;
+    appName = misc.getAppName();
     appVersion = misc.getAppVersion();
 
     // JUCE settings
