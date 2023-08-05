@@ -20,5 +20,5 @@ REM vous pouvez spécifier les architectures cibles comme ceci si nécessaire
 REM cmake -DCMAKE_BUILD_TYPE=Release -A x64 ..
 
 REM Compiler le projet
-cmake --build . --config Release -- /m --target OctaSplit
+cmake --build . --target OctaSplit --config Release -- /m
 echo Compilation terminé
