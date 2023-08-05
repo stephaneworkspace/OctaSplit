@@ -1,4 +1,6 @@
-#include <vector>
+#include <fstream>
+#include <sstream>
+#include <map>
 #include <juce_audio_basics/juce_audio_basics.h>
 #include <juce_gui_basics/juce_gui_basics.h>
 #include "MainComponent.h"
@@ -32,8 +34,23 @@ public:
 
 class MyApp : public JUCEApplication {
 public:
-    const String getApplicationName() override { return "OctaSplit"; }
-    const String getApplicationVersion() override { return "0.0.1"; }
+    MyApp() {
+        std::ifstream file(".env");
+        std::string line;
+        std::map<std::string, std::string> env;
+
+        while (std::getline(file, line)) {
+            std::istringstream iss(line);
+            std::string key, val;
+            std::getline(std::getline(iss, key, '='), val);
+            env[key] = val;
+        }
+
+        appName = env.count("APP_NAME") ? env["APP_NAME"] : "OctaSplit";
+        appVersion = env.count("APP_VERSION") ? env["APP_VERSION"] : "Unknown Version";
+    }
+    const String getApplicationName() override { return String(appName); }
+    const String getApplicationVersion() override { return String(appVersion); }
     bool moreThanOneInstanceAllowed() override { return true; }
 
     void initialise(const String&) override
@@ -49,6 +66,8 @@ public:
 
 private:
     unique_ptr<MainWindow> mainWindow;
+    std::string appName;
+    std::string appVersion;
 };
 
 START_JUCE_APPLICATION(MyApp)

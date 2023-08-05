@@ -1,5 +1,27 @@
 cmake_minimum_required(VERSION 3.12)
 add_compile_definitions(JUCE_MODAL_LOOPS_PERMITTED=1)
+
+# Read each line in the .env file
+file(STRINGS .env ENV_LINES)
+
+# Process each line
+foreach(LINE ${ENV_LINES})
+    # Split the line into NAME and VALUE
+    string(REPLACE "=" ";" LINE_LIST ${LINE})
+    list(GET LINE_LIST 0 NAME)
+    list(GET LINE_LIST 1 VALUE)
+
+    # Process each name
+    if("${NAME}" STREQUAL "APP_NAME")
+        set(APP_NAME ${VALUE})
+    elseif("${NAME}" STREQUAL "APP_VERSION")
+        set(APP_VERSION ${VALUE})
+    endif()
+endforeach()
+
+message(STATUS "APP_NAME: ${APP_NAME}")
+message(STATUS "APP_VERSION: ${APP_VERSION}")
+
 if (UNIX AND NOT APPLE)
     set(CMAKE_C_COMPILER "/usr/bin/clang")
     set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
@@ -43,6 +65,10 @@ FetchContent_MakeAvailable(portaudio libsndfile juce)
 
 if (UNIX)
     if (APPLE)
+        # Add these to your plist
+        set(MACOSX_BUNDLE_BUNDLE_NAME "${APP_NAME}")
+        set(MACOSX_BUNDLE_SHORT_VERSION_STRING "${APP_VERSION}")
+        set(MACOSX_BUNDLE_LONG_VERSION_STRING "${APP_VERSION}")
         set(MACOSX_BUNDLE_ICON_FILE MyIcon.icns)
         set(APP_ICON_MACOSX ${CMAKE_SOURCE_DIR}/icon/MyIcon.icns)
         set_source_files_properties(${APP_ICON_MACOSX} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
