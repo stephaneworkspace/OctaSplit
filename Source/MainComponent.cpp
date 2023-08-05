@@ -230,14 +230,14 @@ void MainComponent::textEditorTextChanged (juce::TextEditor& editor)
 
 void MainComponent::fileSelectButtonClicked()
 {
-    juce::FileChooser chooser("Select a .wav file", juce::File{}, "*.wav");
+    FileChooser chooser("Select a .wav file", File{}, "*.wav");
 
     if (chooser.browseForFileToOpen())
     {
         auto file = chooser.getResult();
         // Vous pouvez utiliser 'file' ici comme vous le souhaitez.
         // Par exemple, vous pouvez l'utiliser pour mettre à jour vos étiquettes, comme dans votre méthode `filesDropped`.
-        juce::StringArray files;
+        StringArray files;
         files.add(file.getFullPathName());
         filesDropped(files, 0, 0); // Vous pouvez ajuster les coordonnées x et y si nécessair
     }
