@@ -110,7 +110,7 @@ endif()
 
 if (APPLE)
     target_sources(OctaSplit PRIVATE
-            .env
+        .env
         Source/Misc.h
         Source/Misc.cpp
         Source/MainComponent.h
