@@ -42,17 +42,28 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(portaudio libsndfile juce)
 
 if (UNIX)
-    juce_add_gui_app(OctaSplit
-        PRODUCT_NAME "OctaSplit"
-        COMPANY_NAME "Stéphane Bressani - bressani.dev"
-        BUNDLE_ID "bressani.dev.octasplit"
-        ICON_BIG ${CMAKE_SOURCE_DIR}/icon/MyIcon.icns
-        # Other options...
-    )
     if (APPLE)
         set(MACOSX_BUNDLE_ICON_FILE MyIcon.icns)
         set(APP_ICON_MACOSX ${CMAKE_SOURCE_DIR}/icon/MyIcon.icns)
         set_source_files_properties(${APP_ICON_MACOSX} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+        set(MY_ICON_NAME "MyIcon")
+        configure_file(${CMAKE_SOURCE_DIR}/Info.plist.in ${CMAKE_BINARY_DIR}/Info.plist)
+        juce_add_gui_app(OctaSplit
+                PRODUCT_NAME "OctaSplit"
+                COMPANY_NAME "Stéphane Bressani - bressani.dev"
+                BUNDLE_ID "bressani.dev.octasplit"
+                ICON_BIG ${CMAKE_SOURCE_DIR}/icon/MyIcon.icns
+                INFOPLIST_FILE ${CMAKE_BINARY_DIR}/Info.plist
+                # Other options...
+                )
+    else ()
+        juce_add_gui_app(OctaSplit
+                PRODUCT_NAME "OctaSplit"
+                COMPANY_NAME "Stéphane Bressani - bressani.dev"
+                BUNDLE_ID "bressani.dev.octasplit"
+                ICON_BIG ${CMAKE_SOURCE_DIR}/icon/MyIcon.icns
+                # Other options...
+                )
     endif ()
 else ()
     juce_add_gui_app(OctaSplit

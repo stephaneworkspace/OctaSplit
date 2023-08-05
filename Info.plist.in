@@ -1,0 +1,3 @@
+<!-- Info.plist.in -->
+<key>CFBundleIconFile</key>
+<string>@MY_ICON_NAME@.icns</string>
