@@ -63,14 +63,24 @@ else ()
     )
 endif()
 
-target_sources(OctaSplit PRIVATE
+if (APPLE)
+    target_sources(OctaSplit PRIVATE
         Source/MainComponent.h
         Source/MainComponent.cpp
         Source/Main.cpp
         Source/AudioFileProperties.cpp
         Source/AudioFileProperties.h
         ${APP_ICON_MACOSX}
-)
+    )
+else ()
+    target_sources(OctaSplit PRIVATE
+            Source/MainComponent.h
+            Source/MainComponent.cpp
+            Source/Main.cpp
+            Source/AudioFileProperties.cpp
+            Source/AudioFileProperties.h
+            )
+endif ()
 
 if (UNIX AND NOT APPLE)
     find_package(PkgConfig REQUIRED)
