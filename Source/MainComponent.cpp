@@ -211,9 +211,6 @@ void MainComponent::filesDropped(const StringArray &files, int x, int y) {
                         durationLabel.setText("Duration: " + juce::String(afp.getDuration(), 2) + " seconds", juce::dontSendNotification);
                         break;
                     } catch (const std::runtime_error& e) {
-                        // DBG("Error opening file: " << e.what());
-                        // juce::NativeMessageBox::showMessageBoxAsync(juce::AlertWindow::WarningIcon, "Error", "Error opening file: " + juce::String(e.what()));
-                        // juce::JUCEApplication::getInstance()->systemRequestedQuit();
                         // Le fichier n'est pas au format WAV
                         AlertWindow::showMessageBoxAsync (AlertWindow::WarningIcon,
                                                           "Error",
@@ -246,8 +243,6 @@ void MainComponent::fileSelectButtonClicked()
     if (chooser.browseForFileToOpen())
     {
         auto file = chooser.getResult();
-        // Vous pouvez utiliser 'file' ici comme vous le souhaitez.
-        // Par exemple, vous pouvez l'utiliser pour mettre à jour vos étiquettes, comme dans votre méthode `filesDropped`.
         StringArray files;
         files.add(file.getFullPathName());
         filesDropped(files, 0, 0); // Vous pouvez ajuster les coordonnées x et y si nécessair
@@ -288,7 +283,8 @@ void MainComponent::aboutButtonClicked()
 {
     AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
                                       "About",
-                                      "This freeware is made by Stephane Bressani - www.bressani.dev\nVersion: " + appVersion);
+                                      "This freeware is made by Stephane Bressani - You can contact him @ www.bressani.dev\nVersion: " + appVersion + "\n\n"
+                                                                                                                                                      "Thanks to JUCE for the community version of the cross-platform UI, to portaudio, libsnd, as well as these freepik artists for pieces of graphics that helped in the design of the application: GarryKillian and onfocus.");
 }
 
 void MainComponent::timerCallback()
