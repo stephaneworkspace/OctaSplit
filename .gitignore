@@ -41,6 +41,7 @@ xcuserdata/
 # Autres fichiers générés par les IDEs et éditeurs
 .vscode/
 .idea/
+.vs/
 *.sln
 *.suo
 *.opensdf
