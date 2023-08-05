@@ -27,7 +27,7 @@ J'ai développé sur une machine MacOs 13 Ventura et le programme fonctionne san
 Il faut la librairie portaudio. (https://github.com/PortAudio/portaudio)
 cd build
 cmake ..
-Ouvrir en admin la solution visual studio et compiler la libraiaire
+Ouvrir en admin la solution visual studio et compiler la librairie
 
 ensuite modifier le CMakeFile.txt de ce projet:
 "C:/Users/Steee/CLionProjects/2023/portaudio-19.7.0/build/Debug/portaudio_static_x64.lib"
