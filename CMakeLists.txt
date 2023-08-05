@@ -25,6 +25,8 @@ message(STATUS "APP_NAME: ${APP_NAME}")
 message(STATUS "APP_VERSION: ${APP_VERSION}")
 message(STATUS "APP_BUNDLE: ${APP_BUNDLE}")
 
+set(ENV_FILE_PATH "${CMAKE_SOURCE_DIR}/.env")
+
 if (UNIX AND NOT APPLE)
     set(CMAKE_C_COMPILER "/usr/bin/clang")
     set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
@@ -167,3 +169,7 @@ endif ()
 add_custom_command(TARGET OctaSplit POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/Assets/ $<TARGET_FILE_DIR:OctaSplit>/Assets/)
+add_custom_command(TARGET OctaSplit POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${ENV_FILE_PATH}
+        $<TARGET_FILE_DIR:OctaSplit>)

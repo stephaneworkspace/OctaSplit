@@ -4,13 +4,9 @@
 #pragma once
 #include <string>
 #include <iostream>
-#include <limits.h>
-#include <unistd.h>
-#include <vector>
 #include <fstream>
 #include <sstream>
 #include <map>
-
 using namespace std;
 
 class Misc {
@@ -19,7 +15,6 @@ public:
     string getAppName();
     string getAppVersion();
 private:
-    static string getExecutablePath();
 
     string appName;
     string appVersion;
