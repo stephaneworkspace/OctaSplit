@@ -9,7 +9,7 @@ OctaSplit est un outil pratique destiné aux producteurs de musique. Il permet d
 Cet outil est en cours de test finaux. J'ai réalisé une autre version fonctionnant sans interface graphique disponible sur [GitHub](https://github.com/stephaneworkspace/split_for_octatrack/blob/main/split.sh).
 
 ## Caractéristiques
-- **Compatible multiplateforme** : Fonctionne sur tous les systèmes d'exploitation courants.
+- **Compatible multiplateforme** : Fonctionne sur tous les systèmes d'exploitation courants. Testé sur Mac OS 13 Ventura, Windows 10 et Ubuntu 22.04 Gnome.
 - **Découpage des fichiers audio** : Transformez vos fichiers audio en fragments prêts à être utilisés dans l'Octatrack.
 
 ## Licence
