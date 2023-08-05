@@ -14,6 +14,7 @@ MainComponent::MainComponent() : fileLabel("", "No file loaded..."),
     startTimerHz(60); // Change this value to control the frame rate
     setWantsKeyboardFocus(true); // Ceci permet à MainComponent d'obtenir le focus clavier
 
+    loadPNG("./Assets/bg.png");
     // Loading SVGs
     svgDrawable1 = loadSVG("./Assets/logobg.svg");
     if (svgDrawable1 != nullptr) {
@@ -35,7 +36,7 @@ MainComponent::MainComponent() : fileLabel("", "No file loaded..."),
     barEditor.addListener(this);
 
     addAndMakeVisible(fileLabel);
-    addAndMakeVisible(titleLabel);
+    //addAndMakeVisible(titleLabel);
     addAndMakeVisible(channelsLabel);
     addAndMakeVisible(sampleRateLabel);
     addAndMakeVisible(durationLabel);
@@ -48,10 +49,10 @@ MainComponent::MainComponent() : fileLabel("", "No file loaded..."),
     addAndMakeVisible(fileSelectButton);
     addAndMakeVisible(aboutButton);
 
-    titleLabel.setFont(juce::Font (32.0f));
-    titleLabel.setJustificationType (juce::Justification::centred);
-    titleLabel.setText("Octatrack wav Split", juce::dontSendNotification);
-    titleLabel.setBounds(10, 20, getWidth() - 20, 40);
+    //titleLabel.setFont(juce::Font (32.0f));
+    //titleLabel.setJustificationType (juce::Justification::centred);
+    //titleLabel.setText("Octatrack wav Split", juce::dontSendNotification);
+    //titleLabel.setBounds(10, 20, getWidth() - 20, 40);
 
     durationLabel.setText("", juce::dontSendNotification);
     durationLabel.setBounds(10, getHeight() - 60, getWidth() - 20, 20);
@@ -97,6 +98,7 @@ void MainComponent::paint(Graphics& g)
 {
     g.fillAll(getLookAndFeel().findColour(
             juce::ResizableWindow::backgroundColourId));
+    g.drawImageAt(pngImage, 0, 0); // Dessine l'image à la position souhaitée
     if (svgDrawable2)
     {
         svgDrawable2->draw(g, 1.0f,
@@ -129,7 +131,7 @@ void MainComponent::resized()
     channelsLabel.setBounds(10, getHeight() -60, getWidth() - 10, 20);
     sampleRateLabel.setBounds(10, getHeight() -90, getWidth() - 10, 20);
     durationLabel.setBounds(10, getHeight() -120, getWidth() - 10, 20);
-    titleLabel.setBounds((getWidth() - 200) / 2, 20 /*(getHeight() - 30)*/ / 2, 400, 30);
+    //titleLabel.setBounds((getWidth() - 200) / 2, 20 /*(getHeight() - 30)*/ / 2, 400, 30);
     bpmLabel.setBounds(500, getHeight() - 120, 100, 40);
     bpmEditor.setBounds(600, getHeight() - 120, 150, 40);
     barLabel.setBounds(500, getHeight() - 60, 100, 40);
@@ -283,6 +285,12 @@ void MainComponent::aboutButtonClicked()
 void MainComponent::timerCallback()
 {
     update();
+}
+
+void  MainComponent::loadPNG(const juce::String& path)
+{
+    auto inputStream = std::make_unique<juce::FileInputStream>(juce::File(path));
+    pngImage = juce::PNGImageFormat().decodeImage(*inputStream);
 }
 
 unique_ptr<Drawable> MainComponent::loadSVG(const String &path) {

@@ -17,6 +17,8 @@ OctaSplit est publié sous la licence open source GNU General Public License v3.
 
 Pour plus de détails, veuillez consulter le fichier `LICENSE` inclus dans le dépôt.
 
+L'image de fond a été utilisé de GarryKillian on Freepik. Une partie du design du logo a été crée à partir d'une modification de l'image de onfocus sur Freepik.
+
 ## Compilation
 
 ### MacOs / Windows / Linux

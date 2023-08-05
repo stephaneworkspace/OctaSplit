@@ -43,10 +43,11 @@ public:
 
 private:
     void timerCallback() override;
+    void loadPNG(const String& path);
     unique_ptr<Drawable> loadSVG(const String &path);
 
     Label fileLabel;
-    Label titleLabel;
+    //Label titleLabel;
     Label channelsLabel;
     Label sampleRateLabel;
     Label durationLabel;
@@ -58,6 +59,7 @@ private:
     TextButton splitButton;
     TextButton fileSelectButton;
     TextButton aboutButton;
+    juce::Image pngImage;
     unique_ptr<Drawable> svgDrawable1;
     unique_ptr<Drawable> svgDrawable2;
     unique_ptr<Drawable> svgDrawable3;
