@@ -14,7 +14,7 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={pf}\bressani.dev\{#MyAppName}
+DefaultDirName={pf32}\bressani.dev\{#MyAppName}
 DefaultGroupName={#MyAppName}
 OutputDir=.\
 ;OutputBaseFilename={#MyAppName} Setup
@@ -31,6 +31,12 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "C:\Code\OctaSplit\build\OctaSplit_artefacts\Release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+
+[Files]
+Source: "C:\Code\OctaSplit\build\OctaSplit_artefacts\Release\.env"; DestDir: "{app}"; Flags: ignoreversion
+
+[Files]
+ Source: "C:\Code\OctaSplit\build\OctaSplit_artefacts\Release\Assets\*"; DestDir: "{app}\Assets"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
