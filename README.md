@@ -4,7 +4,7 @@ Bienvenue dans OctaSplit, une application multiplateforme développée en C++ av
 
 ![OctaSplit on MacOS](./Assets/screen_macos.png)
 ![OctaSplit on Windows](./Assets/screen_windows.png)
-
+![OctaSplit on Linux Ubuntu/Debian](./Assets/screen_linux.png)
 
 ## À propos
 OctaSplit est un outil pratique destiné aux producteurs de musique. Il permet de prendre un fichier généré par un logiciel de musique assistée par ordinateur, tel que Cubase, Ableton Live, Reason, Renoise, Fruity Loops, Logic ou Bitwig, et de le découper en petits morceaux prêts à être utilisés dans l'Octatrack d'Elektron.
