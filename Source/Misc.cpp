@@ -7,6 +7,13 @@
 Misc::Misc() {
     ifstream file(".env");
 
+    // Si l'ouverture du fichier avec un chemin relatif échoue
+    if (!file.is_open()) {
+#ifdef __linux__
+        file.open("/opt/OctaSplit/.env");
+#endif
+    }
+
     if (!file.is_open()) {
         std::cout << "Failed to open .env file.\n" << endl;
     }
