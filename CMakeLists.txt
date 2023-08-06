@@ -119,6 +119,8 @@ if (APPLE)
         Source/Main.cpp
         Source/AudioFileProperties.cpp
         Source/AudioFileProperties.h
+        Source/MyObjCWrapper.h
+        Source/MyObjCWrapper.mm
         ${APP_ICON_MACOSX}
     )
 else ()
@@ -149,16 +151,24 @@ if (UNIX AND NOT APPLE)
     target_link_libraries(OctaSplit PRIVATE ${GTK_LIBRARIES} ${WEBKIT2GTK_LIBRARIES} ${CURL_LIBRARIES})
 endif ()
 
+if (APPLE)
+    find_library(COCOA_LIBRARY Cocoa)
+endif ()
+
 if (UNIX)
     if (APPLE)
+        find_library(PORTAUDIO_LIBRARY portaudio)
+        find_path(PORTAUDIO_INCLUDE_DIR portaudio.h)
         # Link the libraries to your target
         target_link_libraries(OctaSplit PRIVATE
                 #${portaudio_BINARY_DIR}/libportaudio.a
                 #portaudio
                 #portaudio::portaudio
-                "/usr/local/lib/libportaudio.dylib"
+                ${PORTAUDIO_LIBRARY}
+                #"/usr/local/lib/libportaudio.dylib"
                 sndfile
                 juce::juce_audio_utils
+                ${COCOA_LIBRARY}
                 # Other JUCE modules, third-party libraries...
         )
     else()

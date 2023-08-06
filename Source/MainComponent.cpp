@@ -281,6 +281,10 @@ void MainComponent::splitButtonClicked()
 
 void MainComponent::aboutButtonClicked()
 {
+#ifdef __APPLE__
+// Code spécifique à macOS
+    ShowMacOSDialog();
+#endif
     AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
                                       "About",
                                       "This freeware is made by Stephane Bressani\n\nYou can contact him @ www.bressani.dev\nVersion: " + appVersion + "\n\n"

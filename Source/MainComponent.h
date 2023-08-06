@@ -12,6 +12,7 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 #include "Misc.h"
 #include "AudioFileProperties.h"
+#include "MyObjCWrapper.h"
 
 using namespace std;
 using namespace juce;
