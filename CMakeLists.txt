@@ -175,7 +175,8 @@ if (UNIX)
 else ()
     # Link the libraries to your target
     target_link_libraries(OctaSplit PRIVATE
-            "C:/Users/Stéphane Bressani/source/repos/portaudio/build/Debug/portaudio_static_x64.lib"
+            "C:/Users/Stéphane Bressani/source/repos/portaudio/build/Debug/portaudio.lib"
+            #"C:/Users/Stéphane Bressani/source/repos/portaudio/build/Debug/portaudio_static_x64.lib"
             sndfile
             juce::juce_audio_utils
             # Other JUCE modules, third-party libraries...
