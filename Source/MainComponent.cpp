@@ -292,10 +292,20 @@ void MainComponent::timerCallback()
     update();
 }
 
-void MainComponent::loadPNG(const juce::String& path)
+void MainComponent::loadPNG(const String& path)
 {
-    auto inputStream = std::make_unique<juce::FileInputStream>(juce::File(path));
-    pngImage = juce::PNGImageFormat().decodeImage(*inputStream);
+#ifdef __linux__
+    File file(path);
+    String p = "";
+    // Si l'ouverture du fichier avec un chemin relatif échoue
+    if (!file.exists()) {
+        p = "/opt/OctaSplit/" + path;
+    }
+    auto inputStream = std::make_unique<FileInputStream>(File(p));
+#else
+    auto inputStream = std::make_unique<FileInputStream>(File(path));
+#endif
+    pngImage = PNGImageFormat().decodeImage(*inputStream);
 }
 
 unique_ptr<Drawable> MainComponent::loadSVG(const String &path) {
