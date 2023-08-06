@@ -46,7 +46,8 @@ Ouvrez en administrateur la solution Visual Studio et compilez la bibliothèque.
 Nécessite clang.
 
 ```
-sudo apt-get install libfreetype6-dev libgtk-3-dev libwebkit2gtk-4.0-dev
+sudo apt-get update
+sudo apt-get install libfreetype6-dev libgtk-3-dev libwebkit2gtk-4.0-dev portaudio19-dev
 ```
 
 Sur mon bureau Ubuntu 22.04 Gnome, j'ai un problème avec la fonction de glisser-déposer qui ne fonctionne pas. Pour charger un fichier .wav à découper, utilisez le bouton prévu à cet effet.

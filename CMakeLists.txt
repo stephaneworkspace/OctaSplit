@@ -150,16 +150,27 @@ if (UNIX AND NOT APPLE)
 endif ()
 
 if (UNIX)
-    # Link the libraries to your target
-    target_link_libraries(OctaSplit PRIVATE
-        #${portaudio_BINARY_DIR}/libportaudio.a
-        #portaudio
-        #portaudio::portaudio
-        "/usr/local/lib/libportaudio.dylib"
-        sndfile
-        juce::juce_audio_utils
-        # Other JUCE modules, third-party libraries...
-    )
+    if (APPLE)
+        # Link the libraries to your target
+        target_link_libraries(OctaSplit PRIVATE
+                #${portaudio_BINARY_DIR}/libportaudio.a
+                #portaudio
+                #portaudio::portaudio
+                "/usr/local/lib/libportaudio.dylib"
+                sndfile
+                juce::juce_audio_utils
+                # Other JUCE modules, third-party libraries...
+        )
+    else()
+        find_package(PortAudio REQUIRED)
+        # Link the libraries to your target
+        target_link_libraries(OctaSplit PRIVATE
+                PortAudio::PortAudio
+                sndfile
+                juce::juce_audio_utils
+                # Other JUCE modules, third-party libraries...
+        )
+    endif()
 else ()
     # Link the libraries to your target
     target_link_libraries(OctaSplit PRIVATE
