@@ -80,7 +80,7 @@ chmod +x ./octasplit-deb/opt/OctaSplit/OctaSplit
 cp ../../.env octasplit-deb/opt/OctaSplit/
 cp -r ../../Assets/ octasplit-deb/opt/OctaSplit/
 #cp octasplit octasplit-deb/usr/bin
-cp ../../icon/icon.png octasplit-deb/usr/share/pixmaps/
+cp ../../icon/icon.png octasplit-deb/usr/share/pixmaps/OctaSplit.png
 
 # Créer ou écraser le fichier OctaSplit.desktop avec le contenu approprié
 cat <<EOL > octasplit-deb/usr/share/applications/OctaSplit.desktop
