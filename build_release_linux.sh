@@ -59,18 +59,19 @@ cmake --build . --config Release
 
 
 mkdir bin
-cp -rf ./OctaSplit_artefacts/Release/OctaSplit ./bin/OctaSplit
+#cp -rf ./OctaSplit_artefacts/Release ./bin/opt/OctaSplit
 cd bin
-#mkdir installer
-#create-dmg 'OctaSplit.app' ./installer
 
 mkdir -p octasplit-deb/DEBIAN
-mkdir -p octasplit-deb/usr/bin
+#mkdir -p octasplit-deb/usr/bin
 mkdir -p octasplit-deb/usr/share/applications
 mkdir -p octasplit-deb/usr/share/pixmaps
+mkdir -p octasplit-deb/opt/
+cp -rf ../OctaSplit_artefacts/Release ./octasplit-deb/opt/OctaSplit
+chmod +x ./octasplit-deb/opt/OctaSplit/OctaSplit
 
-cp octasplit octasplit-deb/usr/bin
-cp ../icon/icon.png octasplit-deb/usr/share/pixmaps/
+#cp octasplit octasplit-deb/usr/bin
+cp ../../icon/icon.png octasplit-deb/usr/share/pixmaps/
 
 # Créer ou écraser le fichier OctaSplit.desktop avec le contenu approprié
 cat <<EOL > octasplit-deb/usr/share/applications/OctaSplit.desktop
@@ -78,7 +79,7 @@ cat <<EOL > octasplit-deb/usr/share/applications/OctaSplit.desktop
 Version=$APP_VERSION
 Name=$APP_NAME
 Comment=Description de $APP_NAME
-Exec=/usr/bin/octasplit
+Exec=/opt/OctaSplit/OctaSplit
 Icon=/usr/share/pixmaps/OctaSplit.png
 Terminal=false
 Type=Application
