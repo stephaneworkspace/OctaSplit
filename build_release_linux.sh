@@ -1,4 +1,12 @@
 #!/bin/bash
+
+OS=$(uname)
+
+if [ "$OS" != "Linux" ]; then
+    echo "Ce script doit être exécuté uniquement sur Linux!"
+    exit 1
+fi
+
 # Lire les informations depuis le fichier .env
 APP_NAME=$(grep "APP_NAME" .env | cut -d '=' -f2)
 APP_VERSION=$(grep "APP_VERSION" .env | cut -d '=' -f2)
@@ -69,7 +77,8 @@ mkdir -p octasplit-deb/usr/share/pixmaps
 mkdir -p octasplit-deb/opt/
 cp -rf ../OctaSplit_artefacts/Release ./octasplit-deb/opt/OctaSplit
 chmod +x ./octasplit-deb/opt/OctaSplit/OctaSplit
-
+cp ../../.env octasplit-deb/opt/OctaSplit/
+cp -r ../../Assets/ octasplit-deb/opt/OctaSplit/
 #cp octasplit octasplit-deb/usr/bin
 cp ../../icon/icon.png octasplit-deb/usr/share/pixmaps/
 
@@ -95,14 +104,13 @@ Section: base
 Priority: optional
 Architecture: amd64
 Maintainer: Stéphane Bressani <stephane@bressani.dev>
-Description: OctaSplit est un outil pratique destiné aux producteurs de musique. Il permet de prendre un fichier généré par un logiciel de musique assistée par ordinateur, tel que Cubase, Ableton Live, Reason, Renoise, Fruity Loops, Logic ou Bitwig, et de le découper en petits morceaux prêts à être utilisés dans l'Octatrack d'Elektron.
+Description: OctaSplit est un outil pour découper un wav en plusieurs parties sur un bpm avec des mesures définies.
 EOL
 
 echo "Fichier control créé avec succès!"
-# Depends ? sndlib, portaudio, juce ?
 
-cd octasplit-deb
-dpkg-deb --build octasplit-deb
+cd ..
+dpkg-deb --build ./bin/octasplit-deb
 #sudo dpkg -i octasplit-deb.deb
 
 echo "Compilation terminée."

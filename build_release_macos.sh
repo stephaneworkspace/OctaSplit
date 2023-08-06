@@ -1,4 +1,12 @@
 #!/bin/bash
+
+OS=$(uname)
+
+if [ "$OS" != "Darwin" ]; then
+    echo "Ce script doit être exécuté uniquement sur macOS!"
+    exit 1
+fi
+
 # clean
 echo "Clean du répertoire, nottament des fichiers ignoré par .gitignore"
 
