@@ -162,10 +162,11 @@ if (UNIX)
                 # Other JUCE modules, third-party libraries...
         )
     else()
-        find_package(PortAudio REQUIRED)
+        find_library(PORTAUDIO_LIBRARY portaudio)
+        find_path(PORTAUDIO_INCLUDE_DIR portaudio.h)
         # Link the libraries to your target
         target_link_libraries(OctaSplit PRIVATE
-                PortAudio::PortAudio
+                ${PORTAUDIO_LIBRARY}
                 sndfile
                 juce::juce_audio_utils
                 # Other JUCE modules, third-party libraries...
