@@ -1,4 +1,5 @@
 #import <Cocoa/Cocoa.h>
+#include "MyObjCWrapper.h"
 
 void ShowMacOSDialog()
 {
@@ -17,4 +18,9 @@ NSString* GetPathObjC() {
     NSString *appPath = [[NSBundle mainBundle] bundlePath];
     NSString *path = [appPath stringByAppendingPathComponent:@"Contents/MacOS/"];
     return path;
+}
+
+std::string GetPath() {
+    NSString* envPath = GetPathObjC();
+    return std::string([envPath UTF8String]);
 }

@@ -127,7 +127,6 @@ else ()
     target_sources(OctaSplit PRIVATE
         .env
         Source/MyObjCWrapper.h
-        Source/MyObjCWrapper.mm
         Source/Misc.h
         Source/Misc.cpp
         Source/MainComponent.h

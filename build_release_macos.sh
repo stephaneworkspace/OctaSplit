@@ -16,6 +16,9 @@ fi
 if [ -d "OctaSplit_artefacts" ]; then
     rm -rf OctaSplit_artefacts
 fi
+if [ -d "CMakeFiles" ]; then
+    rm -rf CMakeFiles
+fi
 
 if [[ -f "./build.ninja" ]]; then
     rm "./build.ninja"
