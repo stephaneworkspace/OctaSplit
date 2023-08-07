@@ -14,7 +14,7 @@ Misc::Misc() {
 #endif
 #ifdef __APPLE__
 // Code spécifique à macOS
-        file.open(GetPath() + ".env");
+        file.open(GetPath() + "/.env");
 #endif
     }
 

@@ -313,7 +313,7 @@ void MainComponent::loadPNG(const String& path)
     String p = "";
     // Si l'ouverture du fichier avec un chemin relatif échoue
     if (!file.exists()) {
-        string pp = GetPath();
+        string pp = GetPath() + "/";
         String ppp = (const char*) pp.c_str();
         p = ppp + path;
     } else {
@@ -342,7 +342,7 @@ unique_ptr<Drawable> MainComponent::loadSVG(const String &path) {
     String p = "";
     // Si l'ouverture du fichier avec un chemin relatif échoue
     if (!file.exists()) {
-        string pp = GetPath();
+        string pp = GetPath() + "/";
         String ppp = (const char*) pp.c_str();
         p = ppp + path;
     } else {
