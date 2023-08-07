@@ -3,6 +3,7 @@
 //
 
 #include "Misc.h"
+#include "MyObjCWrapper.h"
 
 Misc::Misc() {
     ifstream file(".env");
@@ -11,6 +12,10 @@ Misc::Misc() {
     if (!file.is_open()) {
 #ifdef __linux__
         file.open("/opt/OctaSplit/.env");
+#endif
+#ifdef __APPLE__
+// Code spécifique à macOS
+        file.open(GetPath() + ".env");
 #endif
     }
 

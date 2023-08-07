@@ -2,20 +2,18 @@
 // Created by Stéphane on 06.08.23.
 //
 
-#ifndef PATH_WRAPPER_H
-#define PATH_WRAPPER_H
-
+#pragma once
 #include <string>
 
+#ifdef JUCE_MAC
 // Cette fonction retourne le chemin du fichier .env sur macOS, ou une chaîne vide sur d'autres plateformes.
 std::string GetPath();
-
 // Cette fonction affiche une boîte de dialogue avec le message "Hello World" sur macOS.
 // Sur d'autres plateformes, elle ne fait rien.
 void ShowMacOSDialog();
-
-#if !defined(JUCE_MAC)
+#else
 inline void ShowMacOSDialog() {}
+inline std::string GetPath() {
+    return "";
+}
 #endif
-
-#endif // PATH_WRAPPER_H

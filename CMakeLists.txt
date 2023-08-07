@@ -112,6 +112,8 @@ endif()
 if (APPLE)
     target_sources(OctaSplit PRIVATE
         .env
+        Source/MyObjCWrapper.h
+        Source/MyObjCWrapper.mm
         Source/Misc.h
         Source/Misc.cpp
         Source/MainComponent.h
@@ -119,13 +121,13 @@ if (APPLE)
         Source/Main.cpp
         Source/AudioFileProperties.cpp
         Source/AudioFileProperties.h
-        Source/MyObjCWrapper.h
-        Source/MyObjCWrapper.mm
         ${APP_ICON_MACOSX}
     )
 else ()
     target_sources(OctaSplit PRIVATE
         .env
+        Source/MyObjCWrapper.h
+        Source/MyObjCWrapper.mm
         Source/Misc.h
         Source/Misc.cpp
         Source/MainComponent.h
