@@ -327,7 +327,32 @@ void MainComponent::loadPNG(const String& path)
 }
 
 unique_ptr<Drawable> MainComponent::loadSVG(const String &path) {
-    File svgFile{File::getSpecialLocation(File::SpecialLocationType::currentExecutableFile).getSiblingFile(path)};
+#ifdef __linux__
+    File file(path);
+    String p = "";
+    // Si l'ouverture du fichier avec un chemin relatif échoue
+    if (!file.exists()) {
+        p = "/opt/OctaSplit/" + path;
+    } else {
+        p = path;
+    }
+    String path_svg = p;
+#elif __APPLE__
+    File file(path);
+    String p = "";
+    // Si l'ouverture du fichier avec un chemin relatif échoue
+    if (!file.exists()) {
+        string pp = GetPath();
+        String ppp = (const char*) pp.c_str();
+        p = ppp + path;
+    } else {
+        p = path;
+    }
+    String path_svg = p;
+#else
+    String path_svg = path;
+#endif
+    File svgFile{File::getSpecialLocation(File::SpecialLocationType::currentExecutableFile).getSiblingFile(path_svg)};
     if (!svgFile.exists()) {
         DBG("File doesn't exist: " << svgFile.getFullPathName());
         return nullptr;
