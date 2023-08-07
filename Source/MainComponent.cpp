@@ -283,7 +283,7 @@ void MainComponent::aboutButtonClicked()
 {
 #ifdef __APPLE__
 // Code spécifique à macOS
-    ShowMacOSDialog();
+    // ShowMacOSDialog();
 #endif
     AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
                                       "About",
@@ -304,6 +304,20 @@ void MainComponent::loadPNG(const String& path)
     // Si l'ouverture du fichier avec un chemin relatif échoue
     if (!file.exists()) {
         p = "/opt/OctaSplit/" + path;
+    } else {
+        p = path;
+    }
+    auto inputStream = std::make_unique<FileInputStream>(File(p));
+#elif __APPLE__
+    File file(path);
+    String p = "";
+    // Si l'ouverture du fichier avec un chemin relatif échoue
+    if (!file.exists()) {
+        string pp = GetPath();
+        String ppp = (const char*) pp.c_str();
+        p = ppp + path;
+    } else {
+        p = path;
     }
     auto inputStream = std::make_unique<FileInputStream>(File(p));
 #else

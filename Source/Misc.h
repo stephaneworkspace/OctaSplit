@@ -7,6 +7,8 @@
 #include <fstream>
 #include <sstream>
 #include <map>
+#include "MyObjCWrapper.h"
+
 using namespace std;
 
 class Misc {

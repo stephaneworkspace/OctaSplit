@@ -3,7 +3,6 @@
 //
 
 #include "Misc.h"
-#include "MyObjCWrapper.h"
 
 Misc::Misc() {
     ifstream file(".env");
