@@ -1,5 +1,5 @@
 #define MyAppName "OctaSplit"
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "1.0.1"
 #define MyAppPublisher "Stéphane Bressani"
 #define MyAppURL "https://www.bressani.dev/"
 #define MyAppExeName "OctaSplit.exe"
@@ -18,7 +18,7 @@ DefaultDirName={pf32}\bressani.dev\{#MyAppName}
 DefaultGroupName={#MyAppName}
 OutputDir=.\
 ;OutputBaseFilename={#MyAppName} Setup
-OutputBaseFilename=OctaSplit-1.0.0-Setup
+OutputBaseFilename=OctaSplit-1.0.1-Setup
 Compression=lzma
 SolidCompression=yes
 
