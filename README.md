@@ -29,17 +29,18 @@ L'image de fond a été utilisé de GarryKillian on Freepik. Une partie du desig
 Nécessite cmake pour compiler.
 
 ### MacOs
-Compiler avec cmake. Vous devrez peut-être ajouter les bibliothèques portaudio, sndfile et juce.
-
-### Windows
-Nécessite la bibliothèque portaudio. (https://github.com/PortAudio/portaudio)
 
 ```
 cd build
 cmake ..
 ```
 
-Ouvrez en administrateur la solution Visual Studio et compilez la bibliothèque. Ensuite, modifiez le CMakeFile.txt de ce projet avec le chemin approprié, et compilez ce projet (OctaSplit) avec cmake et Visual Studio.
+### Windows
+
+```
+cd build
+cmake ..
+```
 
 ### Ubuntu
 
@@ -49,12 +50,6 @@ Nécessite clang.
 sudo apt-get update
 sudo apt-get install libfreetype6-dev libgtk-3-dev libwebkit2gtk-4.0-dev portaudio19-dev
 ```
-
-Sur mon bureau Ubuntu 22.04 Gnome, j'ai un problème avec la fonction de glisser-déposer qui ne fonctionne pas. Pour charger un fichier .wav à découper, utilisez le bouton prévu à cet effet.
-
-## Bugs
-
-J'ai constaté un problème d'ouverture de fichier spécifiquement pour un élément provenant de Bandcamp. En revanche, tous les autres fichiers que j'ai expérimentés, issus de mes créations avec Ableton Live, Steinberg Cubase ou encore résultant de travaux de mastering externes, n'ont présenté aucun souci. Il est à noter que la fonctionnalité de glisser-déposer du format WAV dans l'application est uniquement opérationnelle sur les systèmes Mac et Windows.
 
 ## Contact
 Pour toute question ou suggestion, n'hésitez pas à me contacter sur [bressani.dev](http://bressani.dev).
