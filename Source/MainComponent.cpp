@@ -288,7 +288,7 @@ void MainComponent::aboutButtonClicked()
     AlertWindow::showMessageBoxAsync (AlertWindow::InfoIcon,
                                       "About",
                                       "This freeware is made by Stephane Bressani\n\nYou can contact him @ www.bressani.dev\nVersion: " + appVersion + "\n\n"
-                                                                                                                                                      "Thanks to JUCE for the community version of the cross-platform UI, to portaudio, libsnd, as well as these freepik artists for pieces of graphics that helped in the design of the application: GarryKillian and onfocus.");
+                                      "Thanks to JUCE for the community version of the cross-platform UI, to libsnd, as well as these freepik artists for pieces of graphics that helped in the design of the application: GarryKillian and onfocus.");
 }
 
 void MainComponent::timerCallback()

@@ -34,7 +34,7 @@ if (UNIX AND NOT APPLE)
     add_definitions(-DJUCE_ENABLE_WIN32_FILETYPE_ASSOCIATION=1)
 endif()
 
-project(OctaSplit VERSION 0.0.1)
+project(OctaSplit VERSION 1.0.1)
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
