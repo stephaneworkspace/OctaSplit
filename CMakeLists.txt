@@ -55,14 +55,12 @@ FetchContent_Declare(
 
 FetchContent_Declare(
         libsndfile
-        GIT_REPOSITORY https://github.com/libsndfile/libsndfile.git
-        GIT_TAG        master
+        URL https://github.com/libsndfile/libsndfile/archive/refs/tags/1.2.2.tar.gz
 )
 
 FetchContent_Declare(
         juce
-        GIT_REPOSITORY https://github.com/juce-framework/JUCE.git
-        GIT_TAG master
+        URL https://github.com/juce-framework/JUCE/archive/refs/tags/7.0.6.tar.gz
 )
 
 FetchContent_MakeAvailable(portaudio libsndfile juce)
