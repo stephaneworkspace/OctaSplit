@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.26)
 add_compile_definitions(JUCE_MODAL_LOOPS_PERMITTED=1)
 
 # Read each line in the .env file
@@ -48,12 +48,6 @@ endforeach()
 include(FetchContent)
 
 FetchContent_Declare(
-        portaudio
-        GIT_REPOSITORY https://github.com/PortAudio/portaudio.git
-        GIT_TAG        master
-)
-
-FetchContent_Declare(
         libsndfile
         URL https://github.com/libsndfile/libsndfile/archive/refs/tags/1.2.2.tar.gz
 )
@@ -63,7 +57,7 @@ FetchContent_Declare(
         URL https://github.com/juce-framework/JUCE/archive/refs/tags/7.0.6.tar.gz
 )
 
-FetchContent_MakeAvailable(portaudio libsndfile juce)
+FetchContent_MakeAvailable(libsndfile juce)
 
 if (UNIX)
     if (APPLE)
@@ -160,11 +154,6 @@ if (UNIX)
         find_path(PORTAUDIO_INCLUDE_DIR portaudio.h)
         # Link the libraries to your target
         target_link_libraries(OctaSplit PRIVATE
-                #${portaudio_BINARY_DIR}/libportaudio.a
-                #portaudio
-                #portaudio::portaudio
-                ${PORTAUDIO_LIBRARY}
-                #"/usr/local/lib/libportaudio.dylib"
                 sndfile
                 juce::juce_audio_utils
                 ${COCOA_LIBRARY}
@@ -175,7 +164,6 @@ if (UNIX)
         find_path(PORTAUDIO_INCLUDE_DIR portaudio.h)
         # Link the libraries to your target
         target_link_libraries(OctaSplit PRIVATE
-                ${PORTAUDIO_LIBRARY}
                 sndfile
                 juce::juce_audio_utils
                 # Other JUCE modules, third-party libraries...
@@ -184,8 +172,6 @@ if (UNIX)
 else ()
     # Link the libraries to your target
     target_link_libraries(OctaSplit PRIVATE
-            "C:/Users/Stéphane Bressani/source/repos/portaudio/build/Debug/portaudio.lib"
-            #"C:/Users/Stéphane Bressani/source/repos/portaudio/build/Debug/portaudio_static_x64.lib"
             sndfile
             juce::juce_audio_utils
             # Other JUCE modules, third-party libraries...
